@@ -15,7 +15,12 @@ export const useStore = defineStore("mystore", () => {
     // perrjs
     const peer = ref(null);
     // socket
-    const socket = ref(io("https://web-scoket-server.onrender.com"))
+    const socket = ref(io("https://web-scoket-server.onrender.com",{
+        withCredentials: true,
+        extraHeaders: {
+          "my-header": "khmer-chat"
+        }
+    }))
 
     socket.value.on("message-response", message => {
         messages.value.push(message)
