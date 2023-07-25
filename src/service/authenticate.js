@@ -1,7 +1,6 @@
 import { useRouter } from "vue-router"
-
+import router from "../routes";
 export default function (status) {
-    const router = useRouter()
     switch (status) {
         case 403:
             router.push({ name: "HOME" })

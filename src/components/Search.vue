@@ -1,13 +1,13 @@
 <template>
     <div class="search-container pt-8">
         <template v-for="user in subUsers">
-            <SearchCard :user="user.user" @click="$event=>opentConversation(user.room_id)"/>
+            <UserCard :user="user.user" :room="user.room" @click="$event=>opentConversation(user.room._id)"/>
         </template>
     </div>
 </template>
 
 <script setup>
-import SearchCard from './SearchCard.vue';
+import UserCard from './UserCard.vue';
 import { useStore } from '../store';
 import {ref,onMounted,watchEffect} from "vue"
 import { useRouter } from 'vue-router';
@@ -17,13 +17,13 @@ const allUsers = ref([])
 const router = useRouter()
 const subUsers = ref([])
 onMounted(() => {
-    store.friends.forEach((room)=>{
-        allUsers.value.push({user:getFriend(room.members),room_id:room._id})
+    store.rooms.forEach((room)=>{
+        allUsers.value.push({user:getFriend(room.members),room})
     })
 })
 
 const getFriend = (members)=>{
-    return members?.find(mem=>mem.id != store.user?._id)
+    return members?.find(mem=>mem._id != store.user?.information?._id)
 }
 
 watchEffect(()=>{

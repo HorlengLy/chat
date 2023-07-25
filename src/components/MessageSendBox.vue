@@ -15,17 +15,20 @@
             </div>
         </template>
         <template #footer>
-            <div class="flex gap-2 align-items-center justify-content-between shadow-2 py-3 px-5">
-                <input type="text" class="send-text-input" v-model="textFile" placeholder="Add a caption..."
-                    :spellcheck="false" :disabled="loading">
-                <Button size="small" icon="pi pi-send" label="Send" class="btn" @click="sendMessage"
+            <div class="flex gap-2 align-items-center justify-content-between shadow-2 py-3 px-1">
+                <!-- <input type="text" class="send-text-input" v-model="textFile" placeholder="Add a caption..."
+                    :spellcheck="false" :disabled="loading"> -->
+                <TextArea class="font-hanuman ms-image-send" :rows="1" auto-resize placeholder="Say someting ..." :spellcheck="false"/>
+                <span class="align-self-end">
+                    <Button size="small" icon="pi pi-send" label="Send" class="btn bg-base" @click="sendMessage"
                     :loading="loading" />
+                </span>
             </div>
         </template>
     </Dialog>
     <div class="w-full lg:w-9 mx-auto flex gap-2 align-items-center pt-1 px-2">
         <span class="relative w-full">
-            <TextArea v-model="messageText" placeholder="message..." class="ms-input-box" cols="1"
+            <TextArea v-model="messageText" placeholder="Say something..." class="ms-input-box font-hanuman" :rows="2"
                 :spellcheck="false" auto-resize ></TextArea>
             <span class="file-input">
                 <label for="file" class="cursor-pointer">
@@ -35,8 +38,8 @@
             </span>
         </span>
         <span class="align-self-end">
-            <Button id="btn-sent" @click="sendMessage" rounded :loading="loading" :icon="messageText?'pi pi-send':'pi pi-microphone'"
-                class="send-message-button button-no-shadow">
+            <Button id="btn-sent" @click="sendMessage" :disabled="!messageText" rounded :loading="loading" icon="pi pi-send"
+                class="send-message-button button-no-shadow" :class="messageText?'bg-base':'bg-gray-500'">
             </Button>
         </span>
     </div>
@@ -47,11 +50,11 @@ import Dialog from "primevue/dialog"
 import Button from "primevue/button"
 import { ref } from "vue"
 import API from "../service"
-import { STATUS } from "../service/status"
 import { useStore } from "../store"
 import { useRoute } from "vue-router"
 import TextArea from "primevue/textarea"
 import { useToast } from "primevue/usetoast"
+
 
 const toast = useToast()
 const api = new API()
@@ -63,6 +66,13 @@ const file = ref("")
 const route = useRoute()
 const loading = ref(false)
 const fileInput = ref(null)
+
+const props = defineProps({
+    scrollToLatesMessage : {
+        type : Function,
+        required :true
+    }
+})
 
 function fileToBase64(e) {
     if (!e?.target?.files[0]) return
@@ -77,10 +87,9 @@ function fileToBase64(e) {
         isSendFile.value = true
     }
 }
-
 const sendMessage = async () => {
     let { id } = route.params
-    if (!id || !(!messageText.value && !file.value && !textFile.value)) return
+    if (!id || (!messageText.value && !file.value && !textFile.value)) return
     try {
         loading.value = true
         const { data, response } = await api.SEND_MESSAGE({
@@ -90,14 +99,15 @@ const sendMessage = async () => {
             sender: store.user.information._id
         })
         if (response) return console.log({ response });
-        if (data.data.statusCode == STATUS.CREATE) {
+        if (data.data.statusCode == 201) {
             store.addMessage(data.data.sent)
+            store.socketSendMesage({message:data.data.sent,sendTo:getFriendIdFromRoom(id)})
             messageText.value = ""
         }
         if (file.value) {
             handleClostDialog()
         }
-        setTimeout(() => store.scrollToLatesMessage(), 100)
+        setTimeout(() => props.scrollToLatesMessage(), 100)
     } catch (error) {
         console.log({ error });
     }
@@ -126,6 +136,13 @@ const addToast = (ms, severity) => {
     })
 }
 
+const getFriendIdFromRoom = id=>{
+    let room = store.rooms?.find(ro => ro._id == id)
+    if(!room) return null
+    let {members} = room
+    if(!members?.length) return null
+    return members?.find(mem => mem._id != store.user?.information?._id)?._id
+}
 
 </script>
 

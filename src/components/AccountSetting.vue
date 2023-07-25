@@ -1,14 +1,14 @@
 <template>
-    <span class="w-10 mx-auto mt-5 text-gray-700 flex align-items-center gap-2">
+    <span class="w-10 mx-auto mt-5 text-base text-gray-800 font-semibold flex align-items-center gap-2">
         <i class="pi pi-lock"></i>
         Account Setting
     </span>
-    <hr class="mt-1 w-10 mx-auto border-blue-600">
+    <hr class="mt-1 w-10 mx-auto border-gray-300">
     <template v-if="!isChangeEmail">
         <div class="flex justify-content-center mt-4">
-            <span class="relative w-10">
-                <input type="text" class="input-custom-profile" required v-model="userEmail" autocomplete="off"
-                    :class="$email.userEmail.$error ? 'border-red placeholder-error ' : ''" :spellcheck="false">
+            <span class="input-cover w-11">
+                <input type="text" class="my-input" required v-model="userEmail" autocomplete="off"
+                    :class="$email.userEmail.$error ? 'border-error' : ''" :spellcheck="false">
                 <label for="text" :class="{ 'color-error': $email.userEmail.$error }">
                     Email
                 </label>
@@ -25,9 +25,9 @@
             </span>
         </div>
         <div class="mt-4 flex justify-content-center">
-            <span class="relative w-10">
-                <input type="text" class="input-custom-profile" id="username" required v-model="username" autocomplete="off"
-                    @input="enableButton" :class="$username.username.$error ? 'border-red placeholder-error ' : ''"
+            <span class="input-cover w-11">
+                <input type="text" class="my-input" id="username" required v-model="username" autocomplete="off"
+                    @input="enableButton" :class="$username.username.$error ? 'border-error' : ''"
                     :spellcheck="false">
                 <label for="username" :class="{ 'color-error': $username.username.$error }">
                     Username
@@ -45,9 +45,9 @@
             </span>
         </div>
         <div class="flex justify-content-center mt-4">
-            <span class="relative w-10">
-                <input type="password" class="input-custom-profile" required v-model="state.password" id="password"
-                    :class="$password.password.$error ? 'border-red placeholder-error ' : ''" :spellcheck="false">
+            <span class="input-cover w-11">
+                <input type="password" class="my-input" required v-model="state.password" id="password"
+                    :class="$password.password.$error ? 'border-error' : ''" :spellcheck="false">
                 <label for="password" :class="{ 'color-error': $password.password.$error }">
                     Password
                 </label>
@@ -61,10 +61,10 @@
         </div>
         <template v-if="state.password">
             <div class="flex justify-content-center mt-4">
-                <span class="relative w-10">
-                    <input type="password" class="input-custom-profile" id="confirm-password" required
+                <span class="input-cover w-11">
+                    <input type="password" class="my-input" id="confirm-password" required
                         v-model="state.confirmPassword"
-                        :class="$password.confirmPassword.$error ? 'border-red placeholder-error ' : ''" :spellcheck="false">
+                        :class="$password.confirmPassword.$error ? 'border-error' : ''" :spellcheck="false">
                     <label for="confirm-password" :class="{ 'color-error': $password.confirmPassword.$error }">
                         Confirm Password
                     </label>
@@ -77,14 +77,14 @@
                 </span>
             </div>
             <span class="flex justify-content-end w-10 pt-4 mx-auto">
-                <Button label="change password" class="button-no-shadow btn-chnage" @click="changePassword" :disabled="$password.$error" :loading="loading"/>
+                <Button label="change password" class="button-no-shadow btn-chnage bg-base" @click="changePassword" :disabled="$password.$error" :loading="loading"/>
             </span>
         </template>
     </template>
     <div class="otp-verify flex flex-column align-items-center justify-content-center mt-4" v-else>
-        <span class="relative w-10">
-            <input type="text" class="input-custom-profile" v-model="otp" required id="otp"
-                :class="$otp.$error ? 'border-red placeholder-error ' : ''" :spellcheck="false">
+        <span class="input-cover w-10">
+            <input type="text" class="my-input" v-model="otp" required id="otp"
+                :class="$otp.$error ? 'border-error' : ''" :spellcheck="false">
             <label for="otp" :class="{ 'color-error': $otp.otp.$error }">
                 OTP
             </label>
@@ -102,8 +102,8 @@
 
     <div class="mt-5 flex justify-content-end gap-2 w-10 mx-auto">
         <template v-if="isChangeEmail">
-            <Button label="Cancel" class="my-btn button-no-shadow" severity="danger" @click="() => isChangeEmail = false" />
-            <Button label="Save" class="my-btn button-no-shadow" :disabled="$otp.$error || loading" :loading="loading" @click="changeEmail" />
+            <Button label="Cancel" class="my-btn button-no-shadow" severity="danger" outlined @click="() => isChangeEmail = false" />
+            <Button label="Save" class="my-btn button-no-shadow bg-base" :disabled="$otp.$error || loading" :loading="loading" @click="changeEmail" />
         </template>
     </div>
 </template>
@@ -230,14 +230,12 @@ const verifyEmail = async() => {
     try{
         loading.value = true
         const checkEmail = await api.CHECK_EMAIL(userEmail.value)
-        console.log({checkEmail});
         if(checkEmail.response){
             const {message} = checkEmail.response?.data?.data
             message && addToast(message,'error')
             return
         }
         const {data,response} = await api.GET_OTP(userEmail.value)
-        console.log({data,response});
         if(response){
             const {message} = response.data?.data
             message && addToast(message,'error')

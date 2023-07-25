@@ -1,0 +1,59 @@
+/* screen pc */
+.leftLayout {
+    position: relative;
+    width: 25vw;
+    border: 1px solid #8888;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background: #fff;
+}
+.rightLayout {
+    width: 75vw;
+    position: relative;
+    right: 0;
+    top: 0;
+    height: 100vh;
+}
+.viewProfile {
+    width: 25vw;
+    position: relative;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    height: 100vh;
+}
+.transition-layout {
+    transition: all .3s linear;
+}
+.width-50vw {
+    width: 50vw !important;
+}
+/* screen tablet */
+@media only screen and (max-width: 1200px){
+    .leftLayout {
+        position: relative;
+        width: 40vw;
+    }
+    .rightLayout {
+        width: 60vw;
+    }
+}
+
+/* mobile screen */
+@media only screen and (max-width: 800px){
+    .leftLayout {
+        width: 100vw;
+    }
+    .rightLayout {
+        position: absolute;
+        width: 100vw;
+        right: -100%;
+    }
+    .hiddenLeftLayout {
+        left: -100%;
+    }
+    .viewRightLayout {
+        right: 0 !important;
+    }
+}

@@ -8,27 +8,42 @@ export default function () {
     router.beforeEach(async (to, from) => {
         const store = useStore()
         const token = localStorage.getItem("token")
-        if (!store.user && to.name != "LOGIN" && token) {
-            const { data, response } = await api.VERIFY_TOKEN(`Bearer ${token}`)
-            if (response) {
-                localStorage.clear('token')
+        if (to.matched.some(record => record.meta.requiredAuth)) {
+            if (!token)
                 return { name: "LOGIN" }
-            }
-            if (data?.data?.statusCode == 200) {
-                data.data.data?.user && store.setUser(data.data.data.user)
-                return { name: "HOME" }
+            if (token && !store.user) {
+                const { data } = await api.VERIFY_TOKEN(`Bearer ${token}`)
+                if (data?.data?.statusCode == 200) {
+                    const user = data.data.data
+                    user && store.setUser(user)
+                    user?.information?._id && store.socketConected(user.information._id)
+                    // user.information?._id && store.createPeerJs(user.information._id)
+                    if (to.meta.requiredAdmin) {
+                        if (user?.information?.role == "ADMIN" || user?.information?.role == "SUPER_ADMIN")
+                            return true
+                        else return {name:"HOME"}
+                    }
+                    else return true
+                }
+                else {
+                    localStorage.clear('token')
+                    return { name: "LOGIN" }
+                }
             }
             else {
-                localStorage.clear('token')
-                return { name: "LOGIN" }
+                if (to.meta.requiredAdmin) {
+                    if (user?.information?.role == "ADMIN" || user?.information?.role == "SUPER_ADMIN")
+                        return true
+                    else return { name: "HOME" }
+                }
+                else return true
             }
-
         }
-        if (to.name == 'LOGIN' && store.user) {
-            return { name: "HOME" }
+        else {
+            if (token) 
+                return { name: "HOME" }
+            else return true
         }
-        if (!store.user && to.name != "LOGIN") return { name: "LOGIN" }
-        else return true
     })
 
 }

@@ -1,28 +1,33 @@
 <template>
-    <div>
-        <MessageHeader />
-    </div>
-    <div class="flex flex-column justify-content-between" style="height: 90%;">
-        <div class="overflow-y-auto">
-            <!-- message contain -->
-            <div class="w-10 lg:w-8 mx-auto flex flex-column gap-3">
-                <template v-if="loading">
-                    <MessageLoading />
-                </template>
-                <template v-else>
-                    <template v-for="message in store.messages">
-                        <span class="date-string" v-if="checkDate(message.createdAt)">
-                            {{ prepareDate(message.createdAt) }}
-                        </span>
-                        <MessageCard :message="message" :selfId="store.user?.information?._id" />
-                    </template>
-                </template>
+    <div class="flex">
+        <div ref="messageLayout" class="h-screen transition-layout w-full">
+            <MessageHeader :toggleViewProfile="toggleViewProfile"/>
+            <div class="flex flex-column justify-content-between" style="height: 90%;">
+                <div class="overflow-y-auto">
+                    <!-- message contain -->
+                    <div class="w-10 lg:w-8 mx-auto flex flex-column gap-3 pt-5">
+                        <template v-if="loading">
+                            <MessageLoading />
+                        </template>
+                        <template v-else>
+                            <template v-for="message in store.messages">
+                                <span class="date-string" v-if="checkDate(message.createdAt)">
+                                    {{ prepareDate(message.createdAt) }}
+                                </span>
+                                <MessageCard :message="message" :selfId="store.user?.information?._id" />
+                            </template>
+                        </template>
+                    </div>
+                    <span ref="viewLates"></span>
+                </div>
+                <div>
+                    <!-- send box -->
+                    <MessageSendBox :scrollToLatesMessage="scrollToLatesMessage"/>
+                </div>
             </div>
-            <div ref="viewLates"></div>
         </div>
-        <div>
-            <!-- send box -->
-            <MessageSendBox />
+        <div ref="friendViewLayout" class="user-info-layout transition-layout hidden-view-layout">
+            <ProfileViews :toggleViewProfile="toggleViewProfile"/>
         </div>
     </div>
 </template>
@@ -31,12 +36,15 @@ import MessageHeader from './MessageHeader.vue';
 import MessageSendBox from "./MessageSendBox.vue"
 import MessageCard from './MessageCard.vue';
 import MessageLoading from "./loading/MessageLoading.vue"
-import { watchEffect, onMounted, ref } from 'vue';
+import { watch, ref,computed } from 'vue';
+import ProfileViews from "../views/ProfileViews.vue"
 import API from '../service';
 import { useStore } from '../store';
 import { useRoute } from "vue-router"
 import { useToast } from 'primevue/usetoast';
 
+const friendViewLayout = ref(null)
+const messageLayout = ref(null)
 const toast = useToast()
 const api = new API();
 const store = useStore()
@@ -45,26 +53,6 @@ const preDate = ref("")
 const route = useRoute()
 const loading = ref(false)
 
-watchEffect(() => {
-    store.messages
-    if (viewLates.value)
-        setTimeout(() => {
-            viewLates.value.scrollIntoView({ behavior: "smooth" })
-        }, 0)
-})
-watchEffect(async () => {
-    const id = route.params.id;
-    console.log("work");
-    preDate.value = ""
-    getMessages(id)
-},{
-    flush : "post"
-})
-onMounted(() => {
-    store.setScrollToLatesMessage(scrollToLatesMessage)
-})
-
-const scrollToLatesMessage = () => viewLates.value.scrollIntoView({ behavior: "smooth" })
 const getMessages = async(id)=>{
     try{
         loading.value = true
@@ -74,7 +62,6 @@ const getMessages = async(id)=>{
             return
         }
         if(data?.data?.statusCode == 200){
-            console.log(data.data.messages);
             data.data.messages && store.setMessages(data.data.messages)
         }
 
@@ -84,6 +71,27 @@ const getMessages = async(id)=>{
     finally{
         loading.value = false
     }
+}
+
+watch(()=>route.params.id,()=>{
+    console.log("change changed");
+    preDate.value = ""
+    getMessages(route.params.id)
+},{deep:true,immediate:true})
+watch(()=>store.messages,()=>{
+    console.log("run");
+    setTimeout(()=>scrollToLatesMessage(),100)
+},{deep:true})
+
+const toggleViewProfile = ()=>{
+    messageLayout.value?.classList.toggle('full-message-layout');
+    friendViewLayout.value?.classList.toggle('hidden-view-layout');
+    friendViewLayout.value?.classList.toggle('friend-view-layout');
+}
+
+const scrollToLatesMessage = () => {
+    if(store.messages.length)
+        viewLates.value.scrollIntoView({ behavior: "smooth" })
 }
 
 const prepareDate = (date) => {

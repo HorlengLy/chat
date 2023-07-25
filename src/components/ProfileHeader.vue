@@ -5,9 +5,12 @@
                 <Button class="animation-arrow arrow-button button-no-shadow" @click="toggleProfile" icon="pi pi-arrow-left" rounded size="small" />
             </span>
         </span>
-        <span class="col-6 flex justify-content-center px-3">
+        <span class="col-6 flex justify-content-center align-items-center gap-3 px-3">
             <span class="profile-header-title default-color">
-                Information
+                Settings
+            </span>
+            <span class="icons">
+                <i class="pi pi-pencil"></i>
             </span>
         </span>
     </div>
@@ -38,6 +41,9 @@ defineProps({
     font-size: 20px;
     letter-spacing: .5px;
     font-weight: 600;
+}
+.icons > i {
+    color: gray;
 }
 
 </style>

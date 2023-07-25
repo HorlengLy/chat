@@ -1,5 +1,3 @@
-
-
 <template>
     <Dialog modal v-model:visible="viewDialog" class="add-contact">
         <template #header>
@@ -8,7 +6,7 @@
             </div>
         </template>
         <template #default>
-            <div class="add-contact-content px-5 py-3">
+            <div class="add-contact-content px-6 py-3">
                 <div class="flex sm:flex-row flex-column align-items-center md:gap-5 gap-2">
                     <span class="">
                         <span class="image-cover overflow-hidden">
@@ -16,9 +14,8 @@
                         </span>
                     </span>
                     <div class="w-full">
-                        <span class="input-custom-cover">
-                            <input class="input-custom w-full md:w-10" 
-                            v-model="searchText" :class="{'border-error':val.searchText.$error}"
+                        <span class="input-cover">
+                            <input v-model="searchText" class="my-input" :class="{'border-error':val.searchText.$error}" @keyup.enter="hadleSearch"
                             type="text" id="email" required autocomplete="OFF" :spellcheck="false"/>
                             <label for="email" :class="val.searchText.$error?'color-error border-error':''">
                                 Username or email
@@ -32,9 +29,9 @@
             </div>
         </template>
         <template #footer>
-            <div class="flex align-items-center gap-2 justify-content-center md:justify-content-end py-3 px-4 md:px-5 bg-white">
-                <Button label="Close" severity="danger" class="button-custom button-outline-none w-full md:w-auto" @click="toggleClick" :disabled="loading"/>
-                <Button label="Add" class="button-custom button-outline-none w-full md:w-auto" @click="hadleSearch" :loading="loading"/>
+            <div class="flex align-items-center gap-2 justify-content-end py-3 px-4 md:px-5 bg-white">
+                <Button label="Close" severity="danger" class="button-custom button-outline-none" @click="toggleAddContact" outlined :disabled="loading"/>
+                <Button label="Add" class="button-custom button-outline-none" @click="hadleSearch" :loading="loading"/>
             </div>
         </template>
     </Dialog>
@@ -62,7 +59,7 @@ const props = defineProps({
         type : Boolean ,
         required : true
     },
-    toggleClick : {
+    toggleAddContact : {
         type : Function ,
         required : true
     }
@@ -88,7 +85,6 @@ const hadleSearch =async()=>{
     try{
         loading.value = true
         const {data,response} = await api.SEARCH_USER(searchText.value)
-        console.log({data,response});
         if(response){
             response.data?.data?.message && addToast(response.data.data.message,'error')
             return
@@ -99,7 +95,7 @@ const hadleSearch =async()=>{
             const checkroom = checkFriend(id,store.user.information._id)
             if(checkroom){
                 router.push({name:"MESSAGE_BOX",params:{id:checkroom._id}})
-                props.toggleClick()
+                props.toggleAddContact()
                 return
             }
             const room = await api.CREATE_ROOM(id)
@@ -113,7 +109,7 @@ const hadleSearch =async()=>{
                 room.data.data?.message && addToast(room.data.data.message,'success')
                 store.addFriends(room.data.data.getInfo,room.data.data.room)
                 router.push({name:"MESSAGE_BOX",params:{id:roomId}})
-                props.toggleClick()
+                props.toggleAddContact()
             }
         }
     }catch(error){
@@ -136,7 +132,7 @@ const addToast = (message, severity) => {
 
 const checkFriend = (userId,authId)=>{
     let data = null
-    store.friends?.forEach(room=>{
+    store.rooms?.forEach(room=>{
         if(room.members[0]._id == userId && room.members[1]._id == authId){
             data = room
             return
@@ -162,7 +158,7 @@ const checkFriend = (userId,authId)=>{
 .add-contact {
     border-radius: 20px !important;
     overflow: hidden;
-    width: 600px;
+    width: 600px !important;
     background-color: #F3F8FC;
 }
 .add-contact .p-dialog-header,.add-contact .p-dialog-footer ,.add-contact .p-dialog-content {
@@ -170,7 +166,7 @@ const checkFriend = (userId,authId)=>{
 }
 @media only screen and (max-width: 500px){
     .add-contact {
-        width: 350px;
+        width: 90% !important;
     }
 }
 .image-cover {

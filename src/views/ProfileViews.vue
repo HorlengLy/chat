@@ -1,0 +1,120 @@
+<template>
+    <!-- profile view -->
+    <!-- header -->
+    <div class="bg-white w-full flex gap-3 align-items-center shadow-1 py-2 px-4">
+        <Button class="button-no-shadow arrow-button" rounded @click="toggleViewProfile">
+            <template #icon>
+                <span class="times-cion">
+                    <i class="pi pi-times" style="color: gray;font-size: 18px;"></i>
+                </span>
+                <span class="arrow-icon">
+                    <i class="pi pi-arrow-left" style="color: gray;font-size: 18px;"></i>
+                </span>
+            </template>
+        </Button>
+        <span class="text-lg font-semibold text-gray-800">
+            User Info
+        </span>
+    </div>
+    <div class="w-11 mx-auto pt-2">
+        <div class="relative">
+            <div class="user-cover bg-default">
+                <template v-if="user?.profileCover">
+                    <img :src="user.profileCover" alt="" class="w-full h-full">
+                </template>
+            </div>
+            <div class="user-profile bg-default">
+                <template v-if="user?.profileImage">
+                    <img :src="user.profileImage" alt="" class="w-full h-full">
+                </template>
+            </div>
+        </div>
+        <div class="mt-7 flex flex-column align-items-center">
+            <span class="flex gap-2 align-items-center">
+                <span class="font-semibold text-lg text-blue-500 font-hanuman">
+                    {{ user?.name }}
+                </span>
+                <template v-if="isAdmin(user?.role)">
+                    <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded />
+                </template>
+            </span>
+            <span class="font-hanuman w-10 mx-auto text-center mt-2 text-sm text-gray-700" style="font-size: 12px;">
+                {{ user?.bio }}
+            </span>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import {ref, watch } from 'vue';
+import Button from "primevue/button"
+import { useStore } from '../store';
+import { useRoute } from 'vue-router';
+
+const user = ref({})
+const store = useStore()
+const route = useRoute()
+const props = defineProps({
+    toggleViewProfile: {
+        type: Function,
+        required: true
+    }
+})
+const getCurrentUserFromRooms = (id) => {
+    let currentRoom = store.rooms.find(ro => ro._id == id)
+    return currentRoom?.members?.find(user => user._id != store.user?.information?._id)
+}
+
+watch(
+    () => route.params.id,
+    () => {
+        user.value = getCurrentUserFromRooms(window.location.href?.split('k/')[1])
+    }, {
+    immediate: true,
+    flush: "post",
+    deep: true,
+})
+
+const isAdmin = (role) => ((role == "ADMIN") || (role == "SUPER_ADMIN"))
+
+
+</script>
+
+<style scoped>
+.user-profile {
+    width: 7rem;
+    height: 7rem;
+    overflow: hidden;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #3333;
+}
+
+.user-cover {
+    position: relative;
+    width: 100%;
+    min-height: 150px;
+}
+
+.user-cover img {
+    border-radius: 5px 5px 0 0;
+}
+
+.times-cion {
+    display: inline;
+}   
+.arrow-icon {
+    display: none;
+}
+@media only screen and (max-width:400px){
+    .times-cion {
+    display: none;
+    }   
+    .arrow-icon {
+        display: inline;
+    }
+}
+</style>

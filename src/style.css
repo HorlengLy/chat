@@ -51,6 +51,10 @@ body {
   box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ced1d3, 0 1px 2px 0 black !important;
 }
 
+.bg-base {
+  background-color: #035F9E !important;
+}
+
 .my-btn .p-button-label {
   font-weight: 500 !important;
   letter-spacing: .5px;
@@ -153,6 +157,13 @@ body {
 .send-message-dialog {
   border-radius: 20px !important;
   overflow: hidden;
+  width: 600px !important;
+}
+@media only screen and (max-width: 768px) {
+  .send-message-dialog {
+    border-radius: 5px !important;
+    width: 90% !important;
+  }
 }
 
 .send-message-dialog .p-dialog-header .p-dialog-header-icons {
@@ -166,6 +177,18 @@ body {
 
 .send-message-dialog .p-dialog-footer {
   padding: 0 !important;
+}
+.ms-image-send:focus {
+  box-shadow: none !important;
+}
+.ms-image-send::placeholder {
+  font-family: "Roboto";
+}
+.ms-image-send {
+  border: none !important;
+  width: 100%;
+  font-size: 16px !important;
+  font-family: "Hanuman" !important;
 }
 
 .img-preview {
@@ -188,7 +211,8 @@ body {
 }
 
 .btn {
-  height: 35px;
+  height: 40px;
+  width: 100px !important;
 }
 
 .btn:focus {
@@ -236,27 +260,36 @@ body {
 }
 
 .my-input {
-  padding: 13px 10px;
+  padding: 13px 15px;
   width: 100%;
   margin: auto;
   outline: none;
   color: #606060;
   border-radius: 5px;
   border: 1.5px solid #606060;
-  transition: all .3s linear;
+  transition: all .2s linear;
+  border-radius: 10px;
 }
 
 .my-input:focus+label,
 .my-input:valid+label {
   top: -6px;
-  font-size: 10px;
+  font-size: 11px;
+  color: #009fff;
+}
+.my-input:focus,
+.my-input:valid {
+  border-color: #009fff;
+}
+.my-input:focus {
+  box-shadow: 0 0 0 1px #009fff;
 }
 
 .my-input+label {
   padding: 0 2px;
   font-size: 14px;
   position: absolute;
-  left: 10px;
+  left: 15px;
   top: 15px;
   background-color: #fff;
   transition: all 0.2s linear;
@@ -444,52 +477,12 @@ body {
   border-color: #F14138 !important;
 }
 .border-error:focus {
-  box-shadow: 0 0 0 2px #F14138 !important;
-}
-.input-custom-profile {
-  padding: 10px;
-  outline: none;
-  border: 1px solid #5555;
-  width: 100%;
-  transition: color .2s linear;
-  border-radius: 5px;
-}
-.input-custom-profile + label {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  transition: all .2s linear;
-  font-size: 14px;
-}
-.input-custom-profile:focus + label,
-.input-custom-profile:valid + label {
-  top: -6px;
-  font-size: 10px;
-  background-color: #fff;
-  padding: 0 2px;
-}
-.input-custom-profile:focus + label,
-.input-custom-profile:hover + label  {
-  color: #12AF27;
-}
-.input-custom-profile::placeholder {
-  font-size: 14px;
-}
-.input-custom-profile:focus,
-.input-custom-profile:hover {
-  border-color: #12AF27;
-  color: #12AF27;
-}
-.input-custom-profile:focus {
-  color: #12AF27;
+  box-shadow: 0 0 0 1px #F14138 !important;
 }
 .edit-icon {
   position: absolute;
-  top: 10px;
-  right: 10px;
-}
-.border-red {
-  border-color:  rgb(247, 74, 74) !important;
+  top: 14px;
+  right: 20px;
 }
 .placeholder-error::placeholder {
   color: rgb(247, 74, 74) !important;
@@ -568,7 +561,7 @@ body {
   font-size: 12px;
 }
 .font-hanuman {
-  font-family: 'Hanuman', sans-serif;
+  font-family: 'Hanuman', sans-serif !important;
 }
 
 
@@ -599,12 +592,8 @@ body {
   transform: rotate(30deg);
 }
 .send-message-button {
-  background-color: #bfc1c4 !important;
   border: none !important;
   transition: all .3s linear;
-}
-.send-message-button:hover {
-  background-color: #035F9E !important;
 }
 .loading {
   height: 70px !important;
@@ -614,14 +603,21 @@ body {
 }
 
 /* message input box */
+.ms-input-box:hover {
+  border-color: rgba(0,0,0,0.1) !important;
+}
 .ms-input-box {
   width: 100%;
   border-radius: 10px !important;
   font-family: var(--message-font) !important;
   padding: 12px 20px !important;
+  transition: all .3s linear;
 }
 .ms-input-box:focus {
   box-shadow: none !important;
+}
+.ms-input-box::placeholder {
+  font-family: "Roboto";
 }
 .file-input {
   position: absolute;
@@ -629,4 +625,122 @@ body {
   right: 20px;
   padding: 5px;
   cursor: pointer;
+}
+
+
+/* user active */
+.active {
+  display: inline-block;
+  position: absolute;
+  right: 5px;
+  padding: 4px;
+  bottom: 2px;
+  background-color: #00c817;
+  border-radius: 50%;
+}
+.button-call {
+  width: 40px !important;
+  height: 40px !important;
+}
+/* navbar button  */
+.nav-button {
+  background:none !important;
+  border: none !important;
+}
+.nav-button:hover {
+  background-color: rgba(0,0,0,0.1) !important;
+}
+.nav-button .p-button-icon {
+  color: #343434 !important;
+  font-size: 18px !important;
+}
+
+.search-input-cover {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+.search-input-cover input {
+  padding: 12px 15px;
+  outline: none;
+  border: 1px solid #888888;
+  border-radius: 10px;
+  width: 100%;
+}
+.search-input-cover input + label {
+  position: absolute;
+  transition: all .2s linear;
+  left: 15px;
+  font-size: 13px;
+  top: 13px;
+}
+.search-input-cover input:focus +label,
+.search-input-cover input:valid +label  {
+  background-color: #fff;
+  left: 13px;
+  padding: 0 2px;
+  top: -6px;
+  font-size: 10px;
+}
+
+/* verify button */
+.verify-button {
+  background-color: #009fff !important;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  border: none !important;
+  /* clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); */
+}
+.verify-button .p-button-icon {
+  font-size: 8px;
+  font-weight: 600;
+  color: #fff;
+}
+.admin-name {
+  color: #02AF05 !important;
+}
+.show-password .p-focus {
+  box-shadow: none !important;
+}
+.show-password .p-highlight {
+  background-color: #035F9E !important;
+  border-color: #035F9E !important;
+}
+.show-password .p-checkbox-box:hover {
+  border-color: #035F9E !important;
+}
+
+
+.info-cover {
+  position: relative;
+}
+.info-cover > textarea {
+  width: 100% !important;
+  font-family: var(--message-font) !important;
+  font-size: 15px;
+  border-color: #009fff !important;
+}
+.info-cover > textarea:focus {
+  box-shadow: 0 0 0 1px #009fff !important;
+}
+.info-cover > textarea:focus + label,
+.info-cover > textarea:valid + label {
+  top: -5px;
+  color: #009fff;
+  font-size: 11px;
+}
+.info-cover > label {
+  font-size: 14px;
+  position: absolute;
+  left: .8rem !important;
+  background-color: #fff;
+  color: gray;
+  top: 15px;
+  transition: all .2s linear;
 }

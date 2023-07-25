@@ -1,9 +1,8 @@
 <template>
-    <div class="shadow-1 m-0 p-0 absolute w-full left-0 top-0 z-5 flex align-items-center">
-        <div class="col-2 relative">
+    <div class="absolute w-full left-0 top-0 z-5 flex align-items-center">
+        <div class="relative col-2">
             <span v-if="!store.isSearch">
-                <SpeedDial :model="items" direction="down" :transitionDelay="80" showIcon="pi pi-bars" hideIcon="pi pi-times" class="dropdown-menu"
-                    buttonClass="p-button-outlined" />
+                <Button icon="pi pi-bars" rounded class="button-no-shadow nav-button" @click="toggleNavbar"/>
             </span>
             <span v-else>
                 <Button class="animation-arrow arrow-button button-no-shadow" @click="store.unSetSearch" icon="pi pi-arrow-left" rounded size="small" />
@@ -23,49 +22,20 @@
 </template>
 
 <script setup>
-import SpeedDial from "primevue/speeddial"
 import Button from "primevue/button";
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "../store";
 
 
 const store = useStore()
-const router = useRouter()
 
 const props = defineProps({
-    toggleProfile: {
+    toggleNavbar:{
         type : Function,
-        required : true,
-    },
-    toggleClick: {
-        type : Function,
-        required : true,
+        required : true
     }
 })
-const items = ref([
-    {
-        label: 'Add',
-        icon: 'pi pi-user',
-        command: () => {
-            props.toggleProfile()
-        }
-    },
-    {
-        label : 'Add Contact',
-        icon : 'pi pi-user-plus',
-        command : ()=>props.toggleClick()
 
-    },
-    {
-        label: 'Add',
-        icon: 'pi pi-sign-out',
-        command: () => {
-            localStorage.clear("token");
-            router.push({name : "LOGIN"})
-        }
-    },
-])
 </script>
 
 

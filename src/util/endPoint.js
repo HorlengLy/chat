@@ -12,7 +12,8 @@ export const AUTH = {
     CHECK_EMAIL         : 'api/auth/check-email?email=',
     CHECK_USERNAME      : 'api/auth/check-username',
     SEARCH_USER         : 'api/auth/search-user?searchText=',
-    CREATE_ROOM         : 'api/ms/create-room'
+    CREATE_ROOM         : 'api/ms/create-room',
+    FRIEND              : 'api/auth/friend'
 }
 
 export const MESSAGE = {

@@ -12,7 +12,7 @@
             </template>
             <template v-else>
                 <label for="cover" class="cover-input cursor-pointer">
-                    <input type="file" id="cover" hidden @change="setCoverImage">
+                    <input type="file" id="cover" hidden @change="setCoverImage" accept="image/png, image/gif, image/jpeg">
                     <i class="pi pi-file-edit"></i>
                 </label>
             </template>
@@ -29,7 +29,7 @@
                 <template v-if="!state.isChangePF">
                     <label for="profile" class="cursor-pointer border-circle p-2 flex justify-content-center"
                         style="background-color: #d4dee7;">
-                        <input type="file" id="profile" hidden @change="setProfileImage" />
+                        <input type="file" id="profile" hidden @change="setProfileImage" accept="image/png, image/gif, image/jpeg"/>
                         <i class="pi pi-camera" style="font-size: 1rem;color: #4EB91F;"></i>
                     </label>
                 </template>
@@ -43,17 +43,22 @@
         </span>
     </div>
     <div class="mt-7 flex flex-column align-items-center">
-        <span class="font-semibold text-xl text-blue-500" style="letter-spacing: 1px;">
-            {{ store.user?.information?.name }}
+        <span class="flex align-items-center gap-2">
+            <span class="font-semibold text-xl text-blue-500 font-hanuman" style="letter-spacing: 1px;">
+                {{ store.user?.information?.name }}
+            </span>
+            <template v-if="isAdmin">
+                <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded/>
+            </template>
         </span>
-        <span class="font-hanuman w-10 mx-auto text-center mt-2 text-blue-400" style="font-size: 12px;">
+        <span class="font-hanuman w-10 mx-auto text-center mt-2 text-base text-gray-700" style="font-size: 12px;">
             {{ store.user?.information?.bio }}
         </span>
     </div>
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import { useStore } from '../store';
 import Button from 'primevue/button';
 const store = useStore()
@@ -182,6 +187,9 @@ const clostProfileImage = ()=>{
     state.isChangePF = false
     state.profileImage = store.user?.information.profileImage
 }
+
+const isAdmin = computed(()=>(store.user?.information?.role == "ADMIN") || (store.user?.information?.role=="SUPER_ADMIN"))
+
 </script>
 
 <style scoped>

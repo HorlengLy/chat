@@ -6,11 +6,17 @@ const router = createRouter({
             path : "/k",
             component : ()=> import("../components/DefaultMessageBox.vue"),
             name : "HOME",
+            meta:{
+                requiredAuth : true
+            }
         },
         {
             path : "/k/:id",
             component : ()=>import("../components/MessageBox.vue"),
             name : "MESSAGE_BOX",
+            meta:{
+                requiredAuth : true
+            }
         },
         {
             path:'/:pathMatch(.*)*',
@@ -52,16 +58,17 @@ const router = createRouter({
             meta:{
                 cleanLayout:true,
             },
+        },
+        {
+            path : "/dashbord",
+            name : "DASHBORD",
+            component : ()=> import("../views/Dashboard.vue"),
+            meta : {
+                requiredAuth  :true,
+                requiredAdmin : true,
+            }
         }
     ]
 })
 
 export default router
-
-// middlewhare
-
-// router.beforeEach((to,from)=>{
-//     if(to.meta.requireAuth){
-//         return {name:"AUTH.LOGIN"}
-//     }
-// })

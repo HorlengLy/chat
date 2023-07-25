@@ -1,55 +1,49 @@
 <template>
-    <div class="mt-3 flex justify-content-center">
-        <span class="relative w-10">
-            <input type="text" class="input-custom-profile" id="name" required v-model="state.name" 
-            @input="enableButton"  autocomplete="off"
-                :class="validate.name.$error ? 'border-red placeholder-error ' : ''" :spellcheck="false">
+    <span class="w-11 mx-auto mt-5 text-gray-800 text-base font-semibold flex align-items-center gap-2">
+        <i class="pi pi-user-edit text-xl"></i>
+        Informations
+    </span>
+    <hr class="mt-1 w-11 mx-auto border-gray-300">
+    <div class="mt-4 px-3">
+        <span class="input-cover">
+            <input type="text" class="my-input font-hanuman" id="name" required v-model="state.name" @input="enableButton"
+                autocomplete="off" :class="validate.name.$error ? 'border-error' : ''" :spellcheck="false">
             <label for="name" :class="{ 'color-error': validate.name.$error }">
                 Name
             </label>
-            <span class="edit-icon">
-                <i class="pi pi-pencil" style="font-size: 12px;opacity:.7;"></i>
-            </span>
             <p v-if="validate.name.$error" class="message-error">
                 {{ validate.name.$errors[0].$message }}
             </p>
         </span>
     </div>
-    <div class="mt-3 flex justify-content-center">
-        <span class="relative w-10">
-            <input type="text" class="input-custom-profile" id="bio" 
-            required v-model="state.bio" @input="enableButton" autocomplete="off"
-                :class="validate.bio.$error ? 'border-red placeholder-error ' : ''" :spellcheck="false">
-            <label for="bio" :class="{ 'color-error': validate.bio.$error }">
-                Bio
-            </label>
-            <span class="edit-icon">
-                <i class="pi pi-pencil" style="font-size: 12px;opacity:.7;"></i>
-            </span>
-            <p v-if="validate.bio.$error" class="message-error">
-                {{ validate.bio.$errors[0].$message }}
-            </p>
-        </span>
-    </div>
-    <div class="mt-3 flex justify-content-center">
-        <span class="relative w-10">
-            <input type="number" class="input-custom-profile" id="phone" 
-            required v-model="state.phone" @input="enableButton"  autocomplete="off"
-                :class="validate.phone.$error ? 'border-red placeholder-error ' : ''">
+    <div class=" mt-4 px-3">
+        <span class="input-cover">
+            <input type="number" class="my-input" id="phone" required v-model="state.phone"
+                @input="enableButton" autocomplete="off"
+                :class="validate.phone.$error ? 'border-error':''">
             <label for="phone" :class="{ 'color-error': validate.phone.$error }">
                 Phone
             </label>
-            <span class="edit-icon">
-                <i class="pi pi-pencil" style="font-size: 12px;opacity:.7;"></i>
-            </span>
             <p v-if="validate.phone.$error" class="message-error">
                 {{ validate.phone.$errors[0].$message }}
             </p>
         </span>
     </div>
+    <div class="mt-3 flex justify-content-center">
+        <span class="info-cover w-11">
+            <Textarea id="descriptions" v-model="state.bio" :rows="1" class="detail-card" :spellcheck="false" style="border-radius: 10px;"
+            required auto-resize :class="validate.bio.$error ? 'border-error' : ''"/>
+            <label for="descriptions" :class="{ 'color-error': validate.bio.$error }">
+                Descriptions
+            </label>
+            <p v-if="validate.bio.$error" class="message-error">
+                {{ validate.bio.$errors[0].$message }}
+            </p>
+        </span>
+    </div>
     <div class="mt-5 flex justify-content-end w-10 mx-auto">
-        <Button label="Save" class="my-btn button-no-shadow" :disabled="validate.$error || disabledButton"
-            @click="changeInformation" />
+        <Button label="Save" class="my-btn button-no-shadow bg-base" :disabled="!disabledButton || validate.$error"
+            @click="changeInformation" :loading="loading" />
     </div>
 </template>
 
@@ -57,11 +51,11 @@
 import { reactive, onMounted, computed, ref } from "vue";
 import useVuelidate from "@vuelidate/core";
 import Button from 'primevue/button';
-import { required, helpers, minLength } from "@vuelidate/validators";
+import { required, helpers } from "@vuelidate/validators";
 import { useStore } from "../store";
 import updateAPI from "../service/updateProfile";
 import { useToast } from "primevue/usetoast";
-
+import Textarea from "primevue/textarea";
 
 const state = reactive({
     name: "",
@@ -92,7 +86,6 @@ const rule = computed(() => (
     }
 ))
 const validate = useVuelidate(rule, state)
-const disabledButton = ref(true)
 const error = ref(null)
 const loading = ref(false)
 const changeInformation = async () => {
@@ -101,7 +94,6 @@ const changeInformation = async () => {
     try {
         loading.value = true
         const { data, response } = await api.CHANGE_INFOMATION(state)
-        console.log({data,response});
         if (response) {
             error.value = response.data?.data
             return
@@ -124,8 +116,8 @@ const changeInformation = async () => {
         loading.value = false
     }
 }
-const enableButton = () => {
-    disabledButton.value = false
-}
+const disabledButton = computed(()=>{
+    return (store.user?.information?.name != state.name || store.user?.information?.phone!= state.phone || store.user?.information?.bio != state.bio)
+})
 
 </script>

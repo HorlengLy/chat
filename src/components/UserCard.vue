@@ -1,42 +1,55 @@
-<script setup>
-import Badge from "primevue/badge"
-import { onMounted, ref } from "vue";
-const props = defineProps({
-    room : {
-        type : Object,
-        require : true,
-    },
-    authId : {
-        type : String,
-        require : true
-    }
-})
-
-const friend = ref(null)
-onMounted(()=>{
-    friend.value = props.room.filter(friend => friend._id !== props.authId)[0]
-})
-
-</script>
 <template>
-    <div v-if="friend" class="hover:bg-gray-200 border-round flex w-full align-items-center gap-4 py-2 px-2 cursor-pointer transition-colors transition-duration-300">
+    <div v-if="user" class="hover:bg-gray-300 border-round flex w-full align-items-center gap-4 py-2 px-3 cursor-pointer transition-colors transition-duration-300">
         <div>
-            <span  class="relative">
+            <span class="relative">
                 <div class="w-3rem h-3rem border-circle overflow-hidden border-1 border-gray-300">
-                    <img :src="friend.profileImage" alt="" class="w-full h-full ">
+                    <img :src="user.profileImage" alt="" class="w-full h-full ">
                 </div>
-                <span class="p-1 border-circle absolute bg-green-500" style="right:5px;bottom: 2px;"></span>
+                <span :class="{ 'active': isActive(user._id) }"></span>
             </span>
         </div>
-
-        <div class="flex justify-content-between align-items-center w-full">
-            <div>
-                <h5 class="text-gray-700 font-semibold" >
-                    {{ friend.name }}
-                </h5>
-                <p class="text-xs mt-2 text-gray-700">Last sent a message</p>
-            </div>
-            <Badge severity="success" :value="8" />
+        <div>
+            <span class="flex gap-3 align-items-center">
+                <span class="font-hanuman font-semibold" :class="(user.role == 'SUPER_ADMIN')?'admin-name':'text-gray-800'">
+                    {{ user.name }}
+                </span>
+                <template v-if="user.role == 'ADMIN' || user.role =='SUPER_ADMIN'">
+                    <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded> </Button>
+                </template>
+            </span>
+            <p class="text-xs mt-2 text-gray-700" v-if="!(user.role == 'SUPER_ADMIN')">
+                {{ new Date(room.createdAt)?.toDateString() }}
+            </p>
+            <p v-else class="text-xs mt-2 text-gray-700">
+                Wellcome, What can I help you guy?
+            </p>
         </div>
     </div>
 </template>
+
+<script>
+import { useStore } from "../store";
+import Button from "primevue/button"
+export default {
+    props: {
+        user: {
+            type: Object,
+            required: true,
+        },
+        room:{
+            type : Object,
+            required: true,
+        }
+    },
+    data() {
+        const store = useStore();
+        return { store };
+    },
+    methods: {
+        isActive(_id) {
+            return this.store.usersActive?.some(el => el._id == _id);
+        }
+    },
+    components: { Button }
+}
+</script>
