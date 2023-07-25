@@ -7,7 +7,6 @@ export const AUTH = {
     GET_PROFILE_DETAILS : "api/auth/get-profile-details",
     UPDATE_INFOMATION   : "api/auth/update-info",
     VERIFY_OTP          : "api/auth/verify-otp",
-    GET_OTP             : "api/auth/get-otp",
     SET_NEW_PASSWORD    : "api/auth/set-password",
     CHECK_EMAIL         : 'api/auth/check-email?email=',
     CHECK_USERNAME      : 'api/auth/check-username',

@@ -15,7 +15,7 @@ export const useStore = defineStore("mystore", () => {
     // perrjs
     const peer = ref(null);
     // socket
-    const socket = ref(io("ws://localhost:8000"))
+    const socket = ref(io("https://web-scoket-server.onrender.com"))
 
     socket.value.on("message-response", message => {
         messages.value.push(message)
