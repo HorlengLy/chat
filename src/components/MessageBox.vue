@@ -1,8 +1,8 @@
 <template>
-    <div class="flex">
+    <div class="flex relative">
         <div ref="messageLayout" class="h-screen transition-layout w-full">
-            <MessageHeader :toggleViewProfile="toggleViewProfile"/>
-            <div class="flex flex-column justify-content-between" style="height: 90%;">
+            <MessageHeader :toggleViewProfile="toggleViewProfile" style="height: 8vh;"/>
+            <div class="flex flex-column justify-content-between" style="height: 80vh;">
                 <div class="overflow-y-auto">
                     <!-- message contain -->
                     <div class="w-10 lg:w-8 mx-auto flex flex-column gap-3 pt-5">
@@ -20,7 +20,7 @@
                     </div>
                     <span ref="viewLates"></span>
                 </div>
-                <div>
+                <div class="absolute bottom-0 w-full z-5">
                     <!-- send box -->
                     <MessageSendBox :scrollToLatesMessage="scrollToLatesMessage"/>
                 </div>

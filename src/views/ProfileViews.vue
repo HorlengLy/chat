@@ -1,7 +1,7 @@
 <template>
     <!-- profile view -->
     <!-- header -->
-    <div class="bg-white w-full flex gap-3 align-items-center shadow-1 py-2 px-4">
+    <div class="bg-white w-full flex gap-3 align-items-center shadow-1 py-2 px-4" style="height: 8vh;">
         <Button class="button-no-shadow arrow-button" rounded @click="toggleViewProfile">
             <template #icon>
                 <span class="times-cion">
@@ -19,34 +19,34 @@
     <div class="w-11 mx-auto pt-2">
         <div class="relative">
             <div class="user-cover bg-default">
-                <template v-if="user?.profileCover">
-                    <img :src="user.profileCover" alt="" class="w-full h-full">
+                <template v-if="getCurrentUserFromRooms?.profileCover">
+                    <img :src="getCurrentUserFromRooms.profileCover" alt="" class="w-full h-full">
                 </template>
             </div>
             <div class="user-profile bg-default">
-                <template v-if="user?.profileImage">
-                    <img :src="user.profileImage" alt="" class="w-full h-full">
+                <template v-if="getCurrentUserFromRooms?.profileImage">
+                    <img :src="getCurrentUserFromRooms.profileImage" alt="" class="w-full h-full">
                 </template>
             </div>
         </div>
         <div class="mt-7 flex flex-column align-items-center">
             <span class="flex gap-2 align-items-center">
                 <span class="font-semibold text-lg text-blue-500 font-hanuman">
-                    {{ user?.name }}
+                    {{ getCurrentUserFromRooms?.name }}
                 </span>
-                <template v-if="isAdmin(user?.role)">
+                <template v-if="isAdmin(getCurrentUserFromRooms?.role)">
                     <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded />
                 </template>
             </span>
             <span class="font-hanuman w-10 mx-auto text-center mt-2 text-sm text-gray-700" style="font-size: 12px;">
-                {{ user?.bio }}
+                {{ getCurrentUserFromRooms?.bio }}
             </span>
         </div>
     </div>
 </template>
 
 <script setup>
-import {ref, watch } from 'vue';
+import {ref,computed } from 'vue';
 import Button from "primevue/button"
 import { useStore } from '../store';
 import { useRoute } from 'vue-router';
@@ -60,19 +60,9 @@ const props = defineProps({
         required: true
     }
 })
-const getCurrentUserFromRooms = (id) => {
-    let currentRoom = store.rooms.find(ro => ro._id == id)
+const getCurrentUserFromRooms = computed(() => {
+    let currentRoom = store.rooms.find(ro => ro._id == route.params.id)
     return currentRoom?.members?.find(user => user._id != store.user?.information?._id)
-}
-
-watch(
-    () => route.params.id,
-    () => {
-        user.value = getCurrentUserFromRooms(window.location.href?.split('k/')[1])
-    }, {
-    immediate: true,
-    flush: "post",
-    deep: true,
 })
 
 const isAdmin = (role) => ((role == "ADMIN") || (role == "SUPER_ADMIN"))

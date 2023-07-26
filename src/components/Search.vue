@@ -1,7 +1,9 @@
 <template>
     <div class="search-container pt-8">
         <template v-for="user in subUsers">
-            <UserCard :user="user.user" :room="user.room" @click="$event=>opentConversation(user.room._id)"/>
+            <template v-if="!user.user?.isDeleted">
+                <UserCard :user="user.user" :room="user.room" @click="$event=>opentConversation(user.room._id)"/>
+            </template>
         </template>
     </div>
 </template>

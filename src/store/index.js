@@ -10,7 +10,7 @@ export const useStore = defineStore("mystore", () => {
     const messages = ref([])
     const searchText = ref("")
     const isSearch = ref(false)
-    const loading = ref(false)
+    const loading = ref(true)
     const usersActive = ref([])
     // perrjs
     const peer = ref(null);
