@@ -10,11 +10,13 @@
                             <MessageLoading />
                         </template>
                         <template v-else>
-                            <template v-for="message in messages" :key="message._id">
-                                <span class="date-string" v-if="checkDate(message.createdAt)">
-                                    {{ prepareDate(message.createdAt) }}
-                                </span>
-                                <MessageCard :message="message" :selfId="store.user?.information?._id"/>
+                            <template v-if="messages.length">
+                                <template v-for="message in messages" :key="message._id">
+                                    <span class="date-string" v-if="checkDate(message.createdAt)">
+                                        {{ prepareDate(message.createdAt) }}
+                                    </span>
+                                    <MessageCard :message="message" :selfId="store.user?.information?._id"/>
+                                </template>
                             </template>
                         </template>
                     </div>
@@ -55,6 +57,7 @@ const loading = ref(false)
 const messages = ref([])
 
 const getMessages = async(id)=>{
+    console.log("aa");
     try{
         loading.value = true
         const { response, data } = await api.GET_MESSAGES({ id, token: localStorage.getItem("token") })
@@ -63,7 +66,8 @@ const getMessages = async(id)=>{
             return
         }
         if(data?.data?.statusCode == 200){
-            messages.value = data.data.messages ?? []
+            messages.value = []
+            messages.value.push(data.data.messages[0])
             setTimeout(()=>{
                 scrollToLatesMessage()
             },200)
