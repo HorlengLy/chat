@@ -57,7 +57,7 @@ const loading = ref(false)
 const messages = ref([])
 
 const getMessages = async(id)=>{
-    console.log("aa");
+    console.log("getting messages from server");
     try{
         loading.value = true
         const { response, data } = await api.GET_MESSAGES({ id, token: localStorage.getItem("token") })
@@ -66,8 +66,7 @@ const getMessages = async(id)=>{
             return
         }
         if(data?.data?.statusCode == 200){
-            messages.value = []
-            messages.value.push(data.data.messages[0])
+            messages.value = data.data.messages ?? []
             setTimeout(()=>{
                 scrollToLatesMessage()
             },200)
