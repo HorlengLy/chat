@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue"
+import { reactive, ref } from "vue"
 import { io } from "socket.io-client"
 import { Peer } from "peerjs"
 
@@ -7,18 +7,18 @@ import { Peer } from "peerjs"
 export const useStore = defineStore("mystore", () => {
     const user = ref(null)
     const rooms = ref([])
-    const messages = ref([])
     const searchText = ref("")
     const isSearch = ref(false)
     const loading = ref(true)
     const usersActive = ref([])
+    const addMessage = ref(null)
     // perrjs
     const peer = ref(null);
     // socket
     const socket = ref(io(import.meta.env.VITE_API_URL))
 
     socket.value.on("message-response", message => {
-        messages.value.push(message)
+        addMessage.value(message)
     })
     socket.value.on("user-online", users => {
         usersActive.value = users
@@ -28,7 +28,7 @@ export const useStore = defineStore("mystore", () => {
         usersActive.value = usersActive.value.filter(user => user._id != _id)
     })
     peer.value?.on("call",stream=>{
-        alert('someOneCall')
+        console.log('someOneCall')
     })
     const socketConected = (_id) => {
         socket.value.on("connect", () => {
@@ -52,11 +52,11 @@ export const useStore = defineStore("mystore", () => {
     const setLoading = status => loading.value = status
     const setUser = (information) => user.value = information
     const setRooms = (data) => rooms.value = data
-    const scrollToLatesMessage = ref(null)
     const toggleLayout = ref(null)
     const toggleViewFriend = ref(null)
     const setToggleViewFriend = method => toggleViewFriend.value = method
     const settoggleLayout = (method) => toggleLayout.value = method
+    const setAddMessage = (method) => addMessage.value = method
     const setSearch = () => isSearch.value = true
     const unSetSearch = () => {
         searchText.value = ""
@@ -66,14 +66,11 @@ export const useStore = defineStore("mystore", () => {
         room.members = [info, user]
         rooms.value.push(room)
     }
-    const setMessages = (data) => messages.value = data
-    const addMessage = (ms) => messages.value.push(ms)
     return {
         user,
         setUser,
         rooms,
         setRooms,
-        scrollToLatesMessage,
         settoggleLayout,
         toggleLayout,
         isSearch,
@@ -83,9 +80,8 @@ export const useStore = defineStore("mystore", () => {
         searchText,
         loading,
         setLoading,
-        messages,
-        setMessages,
         addMessage,
+        setAddMessage,
         socket,
         socketSendMesage,
         socketConected,

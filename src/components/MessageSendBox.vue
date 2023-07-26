@@ -68,10 +68,14 @@ const loading = ref(false)
 const fileInput = ref(null)
 
 const props = defineProps({
+    addMessage : {
+        type : Function,
+        required : true,
+    },
     scrollToLatesMessage : {
         type : Function,
-        required :true
-    }
+        required : true,
+    },
 })
 
 function fileToBase64(e) {
@@ -100,14 +104,16 @@ const sendMessage = async () => {
         })
         if (response) return console.log({ response });
         if (data.data.statusCode == 201) {
-            store.addMessage(data.data.sent)
+            props.addMessage(data.data.sent)
             store.socketSendMesage({message:data.data.sent,sendTo:getFriendIdFromRoom(id)})
             messageText.value = ""
+            setTimeout(()=>{
+                props.scrollToLatesMessage()
+            },200)
         }
         if (file.value) {
             handleClostDialog()
         }
-        setTimeout(() => props.scrollToLatesMessage(), 100)
     } catch (error) {
         console.log({ error });
     }

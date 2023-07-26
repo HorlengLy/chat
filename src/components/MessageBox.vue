@@ -1,7 +1,7 @@
 <template>
     <div class="flex relative">
         <div ref="messageLayout" class="h-screen transition-layout w-full">
-            <MessageHeader :toggleViewProfile="toggleViewProfile" style="height: 8vh;"/>
+            <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;"/>
             <div class="flex flex-column justify-content-between" style="height: 80vh;">
                 <div class="overflow-y-auto">
                     <!-- message contain -->
@@ -10,11 +10,11 @@
                             <MessageLoading />
                         </template>
                         <template v-else>
-                            <template v-for="message in store.messages">
+                            <template v-for="message in messages" :key="message._id">
                                 <span class="date-string" v-if="checkDate(message.createdAt)">
                                     {{ prepareDate(message.createdAt) }}
                                 </span>
-                                <MessageCard :message="message" :selfId="store.user?.information?._id" />
+                                <MessageCard :message="message" :selfId="store.user?.information?._id"/>
                             </template>
                         </template>
                     </div>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="absolute bottom-0 w-full z-5">
                     <!-- send box -->
-                    <MessageSendBox :scrollToLatesMessage="scrollToLatesMessage"/>
+                    <MessageSendBox :addMessage="addMessage" :scrollToLatesMessage="scrollToLatesMessage"/>
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@ import MessageHeader from './MessageHeader.vue';
 import MessageSendBox from "./MessageSendBox.vue"
 import MessageCard from './MessageCard.vue';
 import MessageLoading from "./loading/MessageLoading.vue"
-import { watch, ref,computed } from 'vue';
+import { watch, ref,computed, reactive, onMounted } from 'vue';
 import ProfileViews from "../views/ProfileViews.vue"
 import API from '../service';
 import { useStore } from '../store';
@@ -52,6 +52,7 @@ const viewLates = ref(null)
 const preDate = ref("")
 const route = useRoute()
 const loading = ref(false)
+const messages = ref([])
 
 const getMessages = async(id)=>{
     try{
@@ -62,7 +63,10 @@ const getMessages = async(id)=>{
             return
         }
         if(data?.data?.statusCode == 200){
-            data.data.messages && store.setMessages(data.data.messages)
+            messages.value = data.data.messages ?? []
+            setTimeout(()=>{
+                scrollToLatesMessage()
+            },200)
         }
 
     }catch(error){
@@ -74,14 +78,19 @@ const getMessages = async(id)=>{
 }
 
 watch(()=>route.params.id,()=>{
-    console.log("change changed");
+    console.log("route changed");
     preDate.value = ""
     getMessages(route.params.id)
 },{deep:true,immediate:true})
-watch(()=>store.messages,()=>{
-    console.log("run");
-    setTimeout(()=>scrollToLatesMessage(),100)
-},{deep:true})
+
+const getLastMessage = computed(() => messages.length ? messages[messages.length - 1] : null)
+
+const addMessage = (message)=>{
+    messages.value.push(message)
+    setTimeout(()=>{
+        scrollToLatesMessage()
+    },200)
+}
 
 const toggleViewProfile = ()=>{
     messageLayout.value?.classList.toggle('full-message-layout');
@@ -89,8 +98,12 @@ const toggleViewProfile = ()=>{
     friendViewLayout.value?.classList.toggle('friend-view-layout');
 }
 
+onMounted(()=>{
+    store.setAddMessage(addMessage)
+})
+
 const scrollToLatesMessage = () => {
-    if(store.messages.length)
+    if(messages.value?.length)
         viewLates.value.scrollIntoView({ behavior: "smooth" })
 }
 

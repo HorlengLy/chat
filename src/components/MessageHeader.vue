@@ -23,8 +23,8 @@
                             <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded> </Button>
                         </template>
                     </span>
-                    <p v-if="getLastMessage" class="text-xs mt-1">
-                        Last seen {{ new Date(getLastMessage?.createdAt).toDateString() }}
+                    <p v-if="lastMessage" class="text-xs mt-1">
+                        Last seen {{ new Date(lastMessage?.createdAt).toDateString() }}
                     </p>
                     <p v-else class="text-xs mt-1">
                         {{ new Date(getCurrentRoom($route.params?.id)?.createdAt).toDateString() }}
@@ -68,6 +68,10 @@ defineProps({
     toggleViewProfile : {
         type : Function,
         required : true
+    },
+    lastMessage : {
+        type : undefined,
+        required : true
     }
 })
 
@@ -89,7 +93,6 @@ const getFriend = (members, selfId) => {
 const isActive = (_id) => {
     return store.usersActive?.some(el => el._id == _id);
 }
-const getLastMessage = computed(() => store.messages.length ? store.messages[store.messages.length - 1] : null)
 
 
 </script>
