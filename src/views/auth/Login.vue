@@ -86,6 +86,7 @@ const v$ = vueLidate(rule, state)
 const login = async () => {
     const re = await v$.value.$validate()
     if (!re) return
+    console.log("api "+import.meta.env.VITE_API_URL);
     try {
         loading.value = true
         const { response, data } = await api.Login(state)
