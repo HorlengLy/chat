@@ -11,7 +11,7 @@ class API extends MakeAPI {
     VERIFY_EMAIL        =   (data) => this.post(AUTH.VERIFY_EMAIL, data)
     VERIFY_TOKEN        =   (token) => this.get(AUTH.VERIFY_TOKEN,{headers:{"Authorization":token}})
     GET_FRIENDS         =   () => this.get(MESSAGE.GET_FRIENDS)
-    GET_MESSAGES        =   ({ id }) => this.get(`${MESSAGE.GET_MESSAGE}/${id}`)
+    GET_MESSAGES        =   (id) => this.get(`${MESSAGE.GET_MESSAGE}/${id}`)
     SEND_MESSAGE        =   ({ room, sender, text, file }) => this.post(`${MESSAGE.SEND_MESSAGE}/${room}`,{sender,text,file,})
     VERIFY_OTP          =   ({email,otp}) => this.post(AUTH.VERIFY_OTP,{email,otp})
     SET_NEW_PASSWORD    =   ({email,password})=> this.post(AUTH.SET_NEW_PASSWORD,{email,password})

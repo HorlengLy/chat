@@ -1,7 +1,7 @@
 <template>
     <div class="flex relative">
         <div ref="messageLayout" class="h-screen transition-layout w-full">
-            <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;"/>
+            <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;" />
             <div class="flex flex-column justify-content-between" style="height: 80vh;">
                 <div class="overflow-y-auto">
                     <!-- message contain -->
@@ -10,12 +10,9 @@
                             <MessageLoading />
                         </template>
                         <template v-else>
-                            <template v-if="messages.length">
-                                <template v-for="message in messages" :key="message._id">
-                                    <span class="date-string" v-if="checkDate(message.createdAt)">
-                                        {{ prepareDate(message.createdAt) }}
-                                    </span>
-                                    <MessageCard :message="message" :selfId="store.user?.information?._id"/>
+                            <template v-if="messages.length !== 0">
+                                <template v-for="(message, index) in messages" :key="index">
+                                    <MessageCard :message="message" :selfId="store.user?.information?._id" />
                                 </template>
                             </template>
                         </template>
@@ -24,116 +21,112 @@
                 </div>
                 <div class="absolute bottom-0 w-full z-5">
                     <!-- send box -->
-                    <MessageSendBox :addMessage="addMessage" :scrollToLatesMessage="scrollToLatesMessage"/>
+                    <MessageSendBox :addMessage="addMessage" :scrollToLatesMessage="scrollToLatesMessage" />
                 </div>
             </div>
         </div>
         <div ref="friendViewLayout" class="user-info-layout transition-layout hidden-view-layout">
-            <ProfileViews :toggleViewProfile="toggleViewProfile"/>
+            <ProfileViews :toggleViewProfile="toggleViewProfile" />
         </div>
     </div>
 </template>
-<script setup>
+<script>
 import MessageHeader from './MessageHeader.vue';
 import MessageSendBox from "./MessageSendBox.vue"
 import MessageCard from './MessageCard.vue';
 import MessageLoading from "./loading/MessageLoading.vue"
-import { watch, ref,computed, reactive, onMounted } from 'vue';
 import ProfileViews from "../views/ProfileViews.vue"
 import API from '../service';
 import { useStore } from '../store';
-import { useRoute } from "vue-router"
 import { useToast } from 'primevue/usetoast';
 
-const friendViewLayout = ref(null)
-const messageLayout = ref(null)
-const toast = useToast()
-const api = new API();
-const store = useStore()
-const viewLates = ref(null)
-const preDate = ref("")
-const route = useRoute()
-const loading = ref(false)
-const messages = ref([])
-
-const getMessages = async(id)=>{
-    console.log("getting messages from server");
-    try{
-        loading.value = true
-        const { response, data } = await api.GET_MESSAGES({ id, token: localStorage.getItem("token") })
-        if(response){
-            response.data?.data?.message && addToast(response.data.data.message,'error')
-            return
+export default {
+    data() {
+        const api = new API();
+        const toast = useToast()
+        const store = useStore()
+        return {
+            messages: [],
+            store,
+            preDate: "",
+            toast,
+            api,
+            loading: false
         }
-        if(data?.data?.statusCode == 200){
-            messages.value = data.data.messages ?? []
-            setTimeout(()=>{
-                scrollToLatesMessage()
-            },200)
+    },
+    components: { MessageHeader, MessageSendBox, MessageCard, MessageLoading, ProfileViews },
+    computed: {
+        getLastMessage() {
+            return this.messages.length ? this.messages[this.messages.length - 1] : null
         }
+    },
+    async mounted() {
+        this.getMessages()
+        this.store.setAddMessage(this.addMessage)
+    },
+    watch:{
+        $route(){
+            this.getMessages()
+        }
+    },
+    methods: {
+        async getMessages() {
+            try {
+                this.loading = true
+                const { response, data } = await this.api.GET_MESSAGES(this.$route.params.id)
+                if (response) {
+                    response.data?.data?.message && this.addToast(response.data.data.message, 'error')
+                    return
+                }
+                if (data?.data?.statusCode == 200) {
+                    this.messages = []
+                    this.messages = data.data.messages
+                    setTimeout(() => {
+                        this.scrollToLatesMessage()
+                    }, 200)
+                }
 
-    }catch(error){
-        throw new Error(error)
+            } catch (error) {
+                console.log({ error });
+            }
+            finally {
+                this.loading = false
+            }
+        },
+        scrollToLatesMessage() {
+            if (this.messages.length)
+                this.$refs.viewLates?.scrollIntoView({ behavior: "smooth" })
+        },
+        addMessage(message) {
+            this.messages.push(message)
+            setTimeout(() => {
+                this.scrollToLatesMessage()
+            }, 200)
+        },
+        addToast(message, severity) {
+            this.toast.add({
+                summary: "KHMER CHAT",
+                detail: message,
+                life: 5000,
+                severity
+            })
+        },
+        toggleViewProfile() {
+            this.$refs.messageLayout?.classList.toggle('full-message-layout');
+            this.$refs.friendViewLayout?.classList.toggle('hidden-view-layout');
+            this.$refs.friendViewLayout?.classList.toggle('friend-view-layout');
+        },
+        checkDate(date) {
+            let dateString = new Date(date).toDateString()
+            if (!this.preDate) {
+                this.preDate = dateString
+                return true
+            }
+            if (this.preDate == dateString) return false
+            this.preDate = dateString
+            return true
+        },
     }
-    finally{
-        loading.value = false
-    }
 }
-
-watch(()=>route.params.id,()=>{
-    console.log("route changed");
-    preDate.value = ""
-    getMessages(route.params.id)
-},{deep:true,immediate:true})
-
-const getLastMessage = computed(() => messages.length ? messages[messages.length - 1] : null)
-
-const addMessage = (message)=>{
-    messages.value.push(message)
-    setTimeout(()=>{
-        scrollToLatesMessage()
-    },200)
-}
-
-const toggleViewProfile = ()=>{
-    messageLayout.value?.classList.toggle('full-message-layout');
-    friendViewLayout.value?.classList.toggle('hidden-view-layout');
-    friendViewLayout.value?.classList.toggle('friend-view-layout');
-}
-
-onMounted(()=>{
-    store.setAddMessage(addMessage)
-})
-
-const scrollToLatesMessage = () => {
-    if(messages.value?.length)
-        viewLates.value.scrollIntoView({ behavior: "smooth" })
-}
-
-const prepareDate = (date) => {
-    let currentDate = new Date(date).toDateString()
-    return currentDate
-}
-
-const checkDate = (date) => {
-    let dateString = new Date(date).toDateString()
-    if (!preDate.value) {
-        preDate.value = dateString
-        return true
-    }
-    if (preDate.value == dateString) return false
-    preDate.value = dateString
-    return true
-}
-
-const addToast = (message,severity)=>{
-    toast.add({
-        summary : "KHMER CHAT",
-        detail : message,
-        life : 5000,
-        severity
-    })
-}
-
 
 </script>

@@ -10,7 +10,7 @@
         </div>
         <div>
             <span class="flex gap-3 align-items-center">
-                <span class="font-hanuman font-semibold" :class="(user.role == 'SUPER_ADMIN')?'admin-name':'text-gray-800'">
+                <span class="font-semibold" :class="[(user.role == 'SUPER_ADMIN')?'admin-name':'text-gray-800',!isEnglish(user.name)?'font-hanuman':'']">
                     {{ user.name }}
                 </span>
                 <template v-if="user.role == 'ADMIN' || user.role =='SUPER_ADMIN'">
@@ -43,9 +43,12 @@ export default {
     },
     data() {
         const store = useStore();
-        return { store };
+        return { store ,regExp:/[a-zA-Z]/};
     },
     methods: {
+        isEnglish(text){
+            return this.regExp.test(text)
+        },
         isActive(_id) {
             return this.store.usersActive?.some(el => el._id == _id);
         }

@@ -6,7 +6,6 @@ const api = new API();
 
 export default function () {
     router.beforeEach(async (to, from) => {
-        console.log('middleware run');
         const store = useStore()
         const token = localStorage.getItem("token")
         try {

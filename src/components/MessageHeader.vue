@@ -16,7 +16,7 @@
                 </div>
                 <div>
                     <span class="flex gap-2">
-                        <h5 class="font-hanuman" :class="friend?.role == 'SUPER_ADMIN' ? 'admin-name' : 'text-gray-800'">
+                        <h5 :class="[friend?.role == 'SUPER_ADMIN' ? 'admin-name' : 'text-gray-800',!isEnglish(friend?.name)?'font-hanuman':'']">
                             {{ friend?.name }}
                         </h5>
                         <template v-if="friend?.role == 'ADMIN' || friend?.role == 'SUPER_ADMIN'">
@@ -92,6 +92,10 @@ const getFriend = (members, selfId) => {
 
 const isActive = (_id) => {
     return store.usersActive?.some(el => el._id == _id);
+}
+const isEnglish = (text)=>{
+    let reg = /[a-zA-Z]/;
+    return reg.test(text)
 }
 
 

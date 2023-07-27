@@ -44,14 +44,14 @@
     </div>
     <div class="mt-7 flex flex-column align-items-center">
         <span class="flex align-items-center gap-2">
-            <span class="font-semibold text-xl text-blue-500 font-hanuman" style="letter-spacing: 1px;">
-                {{ store.user?.information?.name }}
+            <span class="font-semibold text-xl text-blue-500" :class="{'font-hanuman':!isEnglish(store.user?.information?.name )}" style="letter-spacing: 1px;">
+                {{ store.user?.information?.name}}
             </span>
             <template v-if="isAdmin">
                 <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded/>
             </template>
         </span>
-        <span class="font-hanuman w-10 mx-auto text-center mt-2 text-base text-gray-700" style="font-size: 12px;">
+        <span class="w-10 mx-auto text-center mt-2 text-base text-gray-700" :class="{'font-hanuman':!isEnglish(store.user?.information?.bio)}" style="font-size: 12px;">
             {{ store.user?.information?.bio }}
         </span>
     </div>
@@ -80,6 +80,11 @@ onMounted(() => {
     state.profileCover = store.user?.information?.profileCover
     state.profileImage = store.user?.information?.profileImage
 })
+
+const isEnglish = (text)=>{
+    let reg = /[a-zA-Z]/;
+    return reg.test(text)
+}
 
 const changeProfile = async () => {
     if (!state.profileImage) return;

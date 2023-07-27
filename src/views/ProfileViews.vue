@@ -31,14 +31,14 @@
         </div>
         <div class="mt-7 flex flex-column align-items-center">
             <span class="flex gap-2 align-items-center">
-                <span class="font-semibold text-lg text-blue-500 font-hanuman">
+                <span class="font-semibold text-lg text-blue-500" :class="{'font-hanuman':!isEnglish(getCurrentUserFromRooms?.name)}">
                     {{ getCurrentUserFromRooms?.name }}
                 </span>
                 <template v-if="isAdmin(getCurrentUserFromRooms?.role)">
                     <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded />
                 </template>
             </span>
-            <span class="font-hanuman w-10 mx-auto text-center mt-2 text-sm text-gray-700" style="font-size: 12px;">
+            <span class="w-10 mx-auto text-center mt-2 text-sm text-gray-700" :class="{'font-hanuman':!isEnglish(getCurrentUserFromRooms?.bio)}" style="font-size: 12px;">
                 {{ getCurrentUserFromRooms?.bio }}
             </span>
         </div>
@@ -46,12 +46,11 @@
 </template>
 
 <script setup>
-import {ref,computed } from 'vue';
+import {computed } from 'vue';
 import Button from "primevue/button"
 import { useStore } from '../store';
 import { useRoute } from 'vue-router';
 
-const user = ref({})
 const store = useStore()
 const route = useRoute()
 const props = defineProps({
@@ -66,6 +65,10 @@ const getCurrentUserFromRooms = computed(() => {
 })
 
 const isAdmin = (role) => ((role == "ADMIN") || (role == "SUPER_ADMIN"))
+const isEnglish = (text)=>{
+    let reg = /[a-zA-Z]/;
+    return reg.test(text)
+}
 
 
 </script>
