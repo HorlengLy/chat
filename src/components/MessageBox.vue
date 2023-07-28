@@ -11,9 +11,9 @@
                         </template>
                         <template v-else>
                             <template v-if="messages.length !== 0">
-                                <template v-for="(message, index) in messages" :key="index">
+                                <div v-for="(message, index) in messages" :key="index" class="flex flex-column">
                                     <MessageCard :message="message" :selfId="store.user?.information?._id" />
-                                </template>
+                                </div>
                             </template>
                         </template>
                     </div>

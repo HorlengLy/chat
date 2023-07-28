@@ -12,16 +12,14 @@
                 <Profile :toggleProfile="toggleProfile" />
             </div>
         </div>
-        <div v-else ref="leftLayout" class="leftLayout transition-layout">
-            <div class="shadow-1 m-0 p-0 w-full absolute left-0 top-0 z-5">
-                <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
-            </div>
+        <div v-else ref="leftLayout" class="h-screen leftLayout transition-layout">
+            <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
             <template v-if="loading">
                 <FriendLoading />
             </template>
             <template v-else>
                 <template v-if="!store.isSearch">
-                    <div class="friend-list overflow-y-auto h-full pt-7" v-if="store.rooms.length">
+                    <div class="friend-list h-full overflow-y-auto pt-7" v-if="store.rooms.length">
                         <template v-for="room in store.rooms">
                             <div @click="() => openChat(room)" v-if="!getFriend(room.members)?.isDeleted">
                                 <UserCard :user="getFriend(room.members)" :room="room"/>

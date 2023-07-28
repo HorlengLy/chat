@@ -7,7 +7,7 @@
     <div v-if="route.meta.cleanLayout">
       <CleanLayout />
     </div>
-    <div v-else>
+    <div v-else class="base-container">
       <DefaultLayout />
     </div>
   </template>
@@ -24,3 +24,16 @@ const route = useRoute()
 const store = useStore()
 
 </script>
+
+<style>
+
+.base-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+</style>

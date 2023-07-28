@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute w-full left-0 top-0 z-5 flex align-items-center">
+    <div class="absolute w-full left-0 top-0 z-5 flex align-items-center bg-white">
         <div class="relative col-2">
             <span v-if="!store.isSearch">
                 <Button icon="pi pi-bars" rounded class="button-no-shadow nav-button" @click="toggleNavbar"/>
