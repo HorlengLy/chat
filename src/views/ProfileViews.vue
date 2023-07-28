@@ -16,7 +16,7 @@
             User Info
         </span>
     </div>
-    <div class="w-11 mx-auto pt-2">
+    <div class="w-11 mx-auto pt-2 z-5">
         <div class="relative">
             <div class="user-cover bg-default">
                 <template v-if="getCurrentUserFromRooms?.profileCover">

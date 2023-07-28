@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white shadow-1 flex justify-content-between py-2 md:px-5 px-3  cursor-pointer">
+    <div class="fixed w-full z-4 bg-white shadow-1 flex justify-content-between py-2 md:px-5 px-3  cursor-pointer">
         <template v-if="!loading">
             <div class="flex gap-3 align-items-center" @click="toggleViewProfile">
                 <div class="flex gap-2 align-items-center">

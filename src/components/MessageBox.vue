@@ -3,10 +3,10 @@
         <div class="flex">
             <div ref="messageLayout" class="h-screen transition-layout w-full">
                 <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;" />
-                <div class="flex flex-column justify-content-between" style="height: 80vh;">
+                <div class="flex flex-column justify-content-between" style="height: 90vh;">
                     <div class="overflow-y-auto">
                         <!-- message contain -->
-                        <div class="w-10 lg:w-8 mx-auto flex flex-column gap-3 pt-5">
+                        <div class="w-10 lg:w-8 mx-auto flex flex-column gap-3 pt-7">
                             <template v-if="loading">
                                 <MessageLoading />
                             </template>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div ref="friendViewLayout" class="user-info-layout transition-layout hidden-view-layout">
+            <div ref="friendViewLayout" class="user-info-layout transition-layout hidden-view-layout z-5">
                 <ProfileViews :toggleViewProfile="toggleViewProfile" />
             </div>
         </div>
