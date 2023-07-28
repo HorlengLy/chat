@@ -47,7 +47,7 @@ import Navbar from '../components/Navbar.vue';
 import Profile from '../components/Profile.vue';
 import ProfileHeader from "../components/ProfileHeader.vue"
 import Search from '../components/Search.vue';
-import AddContact from '../components/addcontact.vue';
+import AddContact from '../components/AddContact.vue';
 import FriendLoading from "../components/loading/FriendLoading.vue"
 import { useStore } from "../store";
 import { useRouter,useRoute } from "vue-router";
