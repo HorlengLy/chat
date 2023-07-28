@@ -1,5 +1,5 @@
 <template>
-    <div class="flex relative">
+    <div class="flex relative top-0">
         <div ref="messageLayout" class="h-screen transition-layout w-full">
             <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;" />
             <div class="flex flex-column justify-content-between" style="height: 80vh;">
