@@ -85,6 +85,7 @@ body {
   min-width: 20%;
   padding: 5px 20px 20px 15px;
   border-radius: 10px 10px 10px 0;
+  overflow: hidden;
   z-index: 1
 }
 
@@ -143,8 +144,6 @@ body {
 }
 
 .message-image {
-  min-width: 200px;
-  min-height: 150px;
   border-radius: 10px;
   overflow: hidden;
   padding: 0;
@@ -161,8 +160,8 @@ body {
 }
 @media only screen and (max-width: 768px) {
   .send-message-dialog {
-    border-radius: 5px !important;
-    width: 90% !important;
+    border-radius: 20px !important;
+    width: 94% !important;
   }
   .message-container {
     min-width: 30%;
@@ -171,6 +170,7 @@ body {
 @media only screen and (max-width: 500px) {
   .message-container {
     min-width: 40%;
+    max-width: 80%;
   }
 }
 
@@ -616,10 +616,11 @@ body {
 }
 .ms-input-box {
   width: 100%;
-  border-radius: 8px !important;
+  border-radius: 10px !important;
   font-family: var(--message-font) !important;
   padding: 12px 20px !important;
   transition: all .3s linear !important;
+  padding: 20px !important;
 }
 .ms-input-box:focus {
   box-shadow: 0 0 0 1.5px #009fff !important;
@@ -629,7 +630,7 @@ body {
 }
 .file-input {
   position: absolute;
-  bottom: 10px;
+  bottom: 15px;
   right: 20px;
   padding: 5px;
   cursor: pointer;
