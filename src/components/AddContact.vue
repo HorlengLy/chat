@@ -119,8 +119,6 @@ const hadleSearch =async()=>{
         loading.value = false
     }
 }
-
-
 const addToast = (message, severity) => {
     toast.add({
         summary: "KHMER CHAT",
@@ -129,7 +127,6 @@ const addToast = (message, severity) => {
         severity
     })
 }
-
 const checkFriend = (userId,authId)=>{
     let data = null
     store.rooms?.forEach(room=>{
