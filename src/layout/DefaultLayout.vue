@@ -79,12 +79,10 @@ const openChat = (_room) => {
     router.push({ name: "MESSAGE_BOX", params: { id: _room._id } })
     toggleLayout()
 }
-
 const toggleLayout = () => {
     rightLayout.value.classList.toggle("viewRightLayout")
     leftLayout.value.classList.toggle("hiddenLeftLayout")
 }
-
 const toggleProfile = () => {
     showProfile.value = !showProfile.value
 }
