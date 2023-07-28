@@ -1,32 +1,34 @@
 <template>
-    <div class="flex relative top-0">
-        <div ref="messageLayout" class="h-screen transition-layout w-full">
-            <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;" />
-            <div class="flex flex-column justify-content-between" style="height: 80vh;">
-                <div class="overflow-y-auto">
-                    <!-- message contain -->
-                    <div class="w-10 lg:w-8 mx-auto flex flex-column gap-3 pt-5">
-                        <template v-if="loading">
-                            <MessageLoading />
-                        </template>
-                        <template v-else>
-                            <template v-if="messages.length !== 0">
-                                <div v-for="(message, index) in messages" :key="index" class="flex flex-column">
-                                    <MessageCard :message="message" :selfId="store.user?.information?._id" />
-                                </div>
+    <div class="h-screen verflow-hidden">
+        <div class="flex">
+            <div ref="messageLayout" class="h-screen transition-layout w-full">
+                <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;" />
+                <div class="flex flex-column justify-content-between" style="height: 80vh;">
+                    <div class="overflow-y-auto">
+                        <!-- message contain -->
+                        <div class="w-10 lg:w-8 mx-auto flex flex-column gap-3 pt-5">
+                            <template v-if="loading">
+                                <MessageLoading />
                             </template>
-                        </template>
+                            <template v-else>
+                                <template v-if="messages.length !== 0">
+                                    <div v-for="(message, index) in messages" :key="index" class="flex flex-column">
+                                        <MessageCard :message="message" :selfId="store.user?.information?._id" />
+                                    </div>
+                                </template>
+                            </template>
+                            <span ref="viewLates"></span>
+                        </div>
                     </div>
-                    <span ref="viewLates"></span>
-                </div>
-                <div class="absolute bottom-0 w-full z-5">
-                    <!-- send box -->
-                    <MessageSendBox :addMessage="addMessage" :scrollToLatesMessage="scrollToLatesMessage" />
+                    <div class="absolute bottom-0 w-full z-5">
+                        <!-- send box -->
+                        <MessageSendBox :addMessage="addMessage" :scrollToLatesMessage="scrollToLatesMessage" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div ref="friendViewLayout" class="user-info-layout transition-layout hidden-view-layout">
-            <ProfileViews :toggleViewProfile="toggleViewProfile" />
+            <div ref="friendViewLayout" class="user-info-layout transition-layout hidden-view-layout">
+                <ProfileViews :toggleViewProfile="toggleViewProfile" />
+            </div>
         </div>
     </div>
 </template>

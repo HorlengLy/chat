@@ -2,38 +2,40 @@
     <!-- navbar overlay -->
     <div v-if="viewNavbar" class="nav-bar-overlay" @click="toggleNavbar"></div>
     <Navbar ref="navbarEle" :toggleNavbar="toggleNavbar" :toggleProfile="toggleProfile" :toggleAddContact="toggleAddContact"/>
-    <div class="flex h-screen overflow-hidden">
-        <div v-if="showProfile"
-            class="relative col-12 md:col-5 lg:col-4 xl:col-3 h-full bg-white border-right-1 border-gray-400 transition-all transition-duration-500">
-            <div class="w-full absolute left-0 top-0 z-5 border-bottom-1 border-gray-400">
-                <ProfileHeader :toggleProfile="toggleProfile" />
+    <div class="h-screen w-screen overflow-hidden">
+        <div class="flex h-full overflow-hidden">
+            <div v-if="showProfile"
+                class="relative col-12 md:col-5 lg:col-4 xl:col-3 h-full bg-white border-right-1 border-gray-400 transition-all transition-duration-500">
+                <div class="w-full absolute left-0 top-0 z-5 border-bottom-1 border-gray-400">
+                    <ProfileHeader :toggleProfile="toggleProfile" />
+                </div>
+                <div class="overflow-y-auto py-4 h-full mt-6 z-0">
+                    <Profile :toggleProfile="toggleProfile" />
+                </div>
             </div>
-            <div class="overflow-y-auto py-4 h-full mt-6 z-0">
-                <Profile :toggleProfile="toggleProfile" />
-            </div>
-        </div>
-        <div v-else ref="leftLayout" class="h-screen leftLayout transition-layout">
-            <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
-            <template v-if="loading">
-                <FriendLoading />
-            </template>
-            <template v-else>
-                <template v-if="!store.isSearch">
-                    <div class="friend-list h-full overflow-y-auto pt-7" v-if="store.rooms.length">
-                        <template v-for="room in store.rooms">
-                            <div @click="() => openChat(room)" v-if="!getFriend(room.members)?.isDeleted">
-                                <UserCard :user="getFriend(room.members)" :room="room"/>
-                            </div>
-                        </template>
-                    </div>
+            <div v-else ref="leftLayout" class="h-screen leftLayout transition-layout">
+                <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
+                <template v-if="loading">
+                    <FriendLoading />
                 </template>
                 <template v-else>
-                    <Search />
+                    <template v-if="!store.isSearch">
+                        <div class="friend-list h-full overflow-y-auto pt-7" v-if="store.rooms.length">
+                            <template v-for="room in store.rooms">
+                                <div @click="() => openChat(room)" v-if="!getFriend(room.members)?.isDeleted">
+                                    <UserCard :user="getFriend(room.members)" :room="room"/>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <Search />
+                    </template>
                 </template>
-            </template>
-        </div>
-        <div ref="rightLayout" class="rightLayout transition-layout top-0">
-            <router-view></router-view>
+            </div>
+            <div ref="rightLayout" class="rightLayout transition-layout">
+                <router-view></router-view>
+            </div>
         </div>
     </div>
     <template v-if="isView">

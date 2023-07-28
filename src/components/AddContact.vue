@@ -6,7 +6,7 @@
             </div>
         </template>
         <template #default>
-            <div class="add-contact-content px-6 py-3">
+            <div class="px-5 py-3">
                 <div class="flex sm:flex-row flex-column align-items-center md:gap-5 gap-2">
                     <span class="">
                         <span class="image-cover overflow-hidden">
@@ -29,7 +29,7 @@
             </div>
         </template>
         <template #footer>
-            <div class="flex align-items-center gap-2 justify-content-end py-3 px-4 md:px-5 bg-white">
+            <div class="flex align-items-center gap-2 justify-content-end py-3 px-4 bg-white">
                 <Button label="Close" severity="danger" class="button-custom button-outline-none" @click="toggleAddContact" outlined :disabled="loading"/>
                 <Button label="Add" class="button-custom button-outline-none bg-base" @click="hadleSearch" :loading="loading"/>
             </div>
