@@ -7,7 +7,7 @@ export default class API {
     get = (url,config={})=>{
         return axios.get(url,config)
                     .then(data=>data)
-                    .catch(error=>Promise.reject(error))
+                    .catch(error=>error)
     }
 
     post = (url,data,config={})=>{

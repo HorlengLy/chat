@@ -28,7 +28,7 @@
     </Dialog>
     <div class="w-full lg:w-9 mx-auto flex gap-2 align-items-center pt-1 px-2">
         <span class="relative w-full">
-            <TextArea v-model="messageText" placeholder="Say something..." class="ms-input-box font-hanuman" :rows="2"
+            <TextArea v-model="messageText" placeholder="Say something..." class="ms-input-box font-hanuman" :rows="1"
                 :spellcheck="false" auto-resize ></TextArea>
             <span class="file-input">
                 <label for="file" class="cursor-pointer">

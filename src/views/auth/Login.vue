@@ -1,6 +1,6 @@
 <template>
-    <div class="form-container py-5 px-4 sm:px-6 lg:h-auto h-screen lg:mt-auto mt-0 lg:shadow-2 shadow-none flipleft animation-duration-300" @keyup.enter="login">
-        <h1 class="title">Sign In</h1>
+    <div class="form-container sm:px-5 px-3 py-5 shadow-2 mt-0 flipleft animation-duration-300" @keyup.enter="login">
+        <h1 class="title mt-3">Sign In</h1>
         <div class="input-cover mt-5">
             <input type="text" id="email" autocomplete="OFF" required v-model="state.string" class="my-input"  :class="{'border-error':v$.string.$error}"/>
             <label for="email" :class="v$.string.$error?'color-error':'default-color'">

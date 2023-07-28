@@ -1,7 +1,7 @@
 <template>
     <div v-if="!optSent" @keyup.enter="verifyEmail"
-        class="form-container py-5 px-4 sm:px-6 lg:h-auto h-screen lg:mt-auto mt-0 lg:shadow-2 shadow-none flipright animation-duration-300">
-        <h1 class="title">Create Account</h1>
+        class="form-container sm:px-5 px-3 py-5 shadow-2 mt-0 flipright animation-duration-300">
+        <h1 class="title  mt-3">Create Account</h1>
         <div class="input-cover mt-5">
             <input type="text" id="email" autocomplete="OFF" required v-model="state.email" class="my-input"
                 :class="{ 'border-error': v$.email.$error }" />
@@ -48,17 +48,23 @@
         </p>
     </div>
     <!-- otp -->
-    <div v-else class="form-container py-5 px-4 sm:px-6 lg:h-auto h-screen lg:mt-auto mt-0 lg:shadow-2 shadow-none flipright animation-duration-300">
-        <div class="flex gap-3 align-items-center">
+    <div v-else class="form-container sm:px-5 px-3 py-5 shadow-2 mt-0 flipright animation-duration-300">
+        <div class="flex gap-3 align-items-center  mt-3">
             <span class="icon-verify">
                 <i class="pi pi-verified"></i>
             </span>
-            <h1 class="default-color text-xl">
+            <h1 class="default-color text-xl ">
                 Verify email
             </h1>
         </div>
         <span class="input-cover mt-5 flex ">
-            <input type="number" id="confirm-password" @keyup.enter="verifyOtp" autocomplete="OFF" required v-model="otp" class="my-input"
+            <input 
+                type="number" id="confirm-password" 
+                @keyup.enter="verifyOtp" 
+                autocomplete="OFF" 
+                required 
+                v-model="otp" 
+                class="my-input"
                 :class="{ 'border-error': otp$.otp.$error }" />
             <label for="confirm-password" :class="otp$.otp.$error ? 'color-error' : 'default-color'">
                 OTP Code
@@ -68,7 +74,14 @@
             </p>
         </span>
         <div class="flex justify-content-end">
-            <Button @click="verifyEmail" label="send again" class="button-send-again button-no-shadow" text :loading="sendAgainLoading" :disabled="loading"/>
+            <Button 
+                @click="verifyEmail" 
+                label="send again" 
+                class="button-send-again button-no-shadow" 
+                text 
+                :loading="sendAgainLoading" 
+                :disabled="loading"
+            />
         </div>
         <div class="mt-5 flex align-items-center justify-content-end gap-2">
             <Button label="Back" class="button-no-shadow small-button" severity="danger" outlined :disabled="loading || sendAgainLoading"
@@ -134,7 +147,7 @@ const optSent = ref(false)
 
 const verifyEmail = async () => {
     const re = await v$.value.$validate()
-    if (!re || !state.email) return addToast('data required','error')
+    if (!re) return
     try {
         sendAgainLoading.value = true
         const { response, data } = await api.CHECK_EMAIL({ email: state.email })

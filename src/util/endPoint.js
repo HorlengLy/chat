@@ -10,7 +10,7 @@ export const AUTH = {
     SET_NEW_PASSWORD    : "api/auth/set-password",
     CHECK_EMAIL         : 'api/auth/check-email?email=',
     CHECK_USERNAME      : 'api/auth/check-username',
-    SEARCH_USER         : 'api/auth/search-user?searchText=',
+    SEARCH_USER         : 'api/auth/search-user',
     CREATE_ROOM         : 'api/ms/create-room',
     FRIEND              : 'api/auth/friend'
 }

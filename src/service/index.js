@@ -19,7 +19,7 @@ class API extends MakeAPI {
     CHECK_EMAIL         =   (email) => this.get(AUTH.CHECK_EMAIL+email)
     CHECK_OTP           =   ({ otp,email }) => this.post(OTP.CHECK_OTP,{otp,email})
     CHECK_USERNAME      =   (username)=> this.post(AUTH.CHECK_USERNAME,{username})
-    SEARCH_USER         =   (searchText)=> this.get(`${AUTH.SEARCH_USER}${searchText}`)
+    SEARCH_USER         =   (searchText)=> this.get(AUTH.SEARCH_USER+"?searchText="+searchText)
     CREATE_ROOM         =   (id,roomType)=> this.post(AUTH.CREATE_ROOM,{id,roomType})
     VIEW_FRIEND_PROFILE = (id)=> this.get(`${AUTH.FRIEND}/${id}`)
 }

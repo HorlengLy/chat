@@ -31,7 +31,7 @@
         <template #footer>
             <div class="flex align-items-center gap-2 justify-content-end py-3 px-4 md:px-5 bg-white">
                 <Button label="Close" severity="danger" class="button-custom button-outline-none" @click="toggleAddContact" outlined :disabled="loading"/>
-                <Button label="Add" class="button-custom button-outline-none" @click="hadleSearch" :loading="loading"/>
+                <Button label="Add" class="button-custom button-outline-none bg-base" @click="hadleSearch" :loading="loading"/>
             </div>
         </template>
     </Dialog>

@@ -83,13 +83,13 @@ body {
   width: fit-content;
   max-width: 70%;
   min-width: 20%;
-  padding: 10px 20px 15px 15px;
+  padding: 5px 20px 20px 15px;
   border-radius: 10px 10px 10px 0;
   z-index: 1
 }
 
 .text {
-  font-size: 14px;
+  font-size: 15px;
   color: #fff;
   word-break: break-all;
 }
@@ -126,7 +126,7 @@ body {
   display: inline-block;
   font-size: 10px;
   width: fit-content;
-  bottom: 3px;
+  bottom: 5px;
   right: 10px;
   z-index: 1;
   color: #fff;
@@ -617,20 +617,20 @@ body {
 }
 .ms-input-box {
   width: 100%;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   font-family: var(--message-font) !important;
   padding: 12px 20px !important;
-  transition: all .3s linear;
+  transition: all .3s linear !important;
 }
 .ms-input-box:focus {
-  box-shadow: none !important;
+  box-shadow: 0 0 0 1.5px #009fff !important;
 }
 .ms-input-box::placeholder {
   font-family: "Roboto";
 }
 .file-input {
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   right: 20px;
   padding: 5px;
   cursor: pointer;

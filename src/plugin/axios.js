@@ -13,7 +13,6 @@ axios.interceptors.request.use(config=>{
 axios.interceptors.response.use(response=>{
     return response
 },error=>{
-    console.log({error});
     authenticate(error?.response?.status)
     return Promise.reject(error)
 })
