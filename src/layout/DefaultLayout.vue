@@ -2,7 +2,7 @@
     <!-- navbar overlay -->
     <div v-if="viewNavbar" class="nav-bar-overlay" @click="toggleNavbar"></div>
     <Navbar ref="navbarEle" :toggleNavbar="toggleNavbar" :toggleProfile="toggleProfile" :toggleAddContact="toggleAddContact"/>
-    <div class="h-screen w-screen overflow-hidden">
+    <div class="h-screen w-screen overflow-hidden fixed top-0 left-0">
         <div class="h-full overflow-hidden grid mt-0">
             <div v-if="showProfile"
                 class="relative col-12 md:col-5 lg:col-4 xl:col-3 h-full bg-white border-right-1 border-gray-400 transition-all transition-duration-500">
@@ -14,9 +14,7 @@
                 </div>
             </div>
             <div v-else ref="leftLayout" class="base-layout leftLayout transition-layout">
-                <div>
-                    <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
-                </div>
+                <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
                 <template v-if="loading">
                     <FriendLoading />
                 </template>
