@@ -146,7 +146,6 @@ const getOtpCode = async () => {
         }
         if(response){
             const getOTP = await api.GET_OTP(emailVerify.value)
-            console.log({getOTP});
             if(getOTP?.response){
                 getOTP.response.data?.data?.message && addToast(getOTP.response.data.data.message,'error')
                 return

@@ -94,7 +94,6 @@ const changeProfile = async () => {
             profileImage : state.profileImage,
             token : localStorage.getItem('token')
         })
-        console.log({data,response} );
         if(response){
             if(response.data?.data){
                 const {message} = response.data.data
@@ -134,7 +133,6 @@ const changeCover = async () => {
             profileCover : state.profileCover,
             token : localStorage.getItem('token')
         })
-        console.log({data,response} );
         if(response){
             if(response.data?.data){
                 const {message} = response.data.data
