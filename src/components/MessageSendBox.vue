@@ -2,8 +2,7 @@
     <Dialog v-model:visible="isSendFile" modal class="send-message-dialog" style="width: 30rem;">
         <template #header>
             <div class="flex gap-5 align-items-center">
-                <Button @click="handleClostDialog" icon="pi pi-times" severity="secondary" rounded
-                    class="btn btn-close" />
+                <Button @click="handleClostDialog" icon="pi pi-times" severity="secondary" rounded class="btn btn-close" />
                 <span class="font-semibold text-xl dark-gray">
                     Send Photo
                 </span>
@@ -18,37 +17,43 @@
             <div class="flex gap-2 align-items-center justify-content-between shadow-2 py-3 px-1">
                 <!-- <input type="text" class="send-text-input" v-model="textFile" placeholder="Add a caption..."
                     :spellcheck="false" :disabled="loading"> -->
-                <TextArea class="font-hanuman ms-image-send" :rows="1" auto-resize placeholder="Say someting ..." :spellcheck="false"/>
+                <TextArea class="font-hanuman ms-image-send" :rows="1" auto-resize placeholder="Say someting ..."
+                    :spellcheck="false" />
                 <span class="align-self-end">
                     <Button size="small" icon="pi pi-send" label="Send" class="btn bg-base" @click="sendMessage"
-                    :loading="loading" />
+                        :loading="loading" />
                 </span>
             </div>
         </template>
     </Dialog>
-    <div class="w-full lg:w-9 mx-auto flex gap-2 align-items-center pt-1 px-2">
-        <span class="relative w-full">
-            <TextArea v-model="messageText" placeholder="Say something..." class="ms-input-box font-hanuman" :rows="1"
-                :spellcheck="false" auto-resize ></TextArea>
-            <span class="file-input">
-                <label for="file" class="cursor-pointer">
-                    <input type="file" id="file" ref="fileInput" hidden  accept="image/png, image/gif, image/jpeg" @change="fileToBase64">
-                    <i class="pi pi-file" style="font-size: 20px;" id="file-icon"></i>
-                </label>
+    <div class="send-box-container">
+        <div class="md:w-9 w-11 flex gap-2">
+            <span class="relative w-full">
+                <TextArea v-model="messageText" placeholder="Say something..." class="ms-input-box"
+                    :class="isEnglish ? 'font-roboto' : 'font-hanuman'" :rows="1" :spellcheck="false"
+                    auto-resize></TextArea>
+                <span class="file-input">
+                    <label for="file" class="cursor-pointer">
+                        <input type="file" id="file" ref="fileInput" hidden accept="image/png, image/gif, image/jpeg"
+                            @change="fileToBase64">
+                        <i class="pi pi-file" style="font-size: 20px;" id="file-icon"></i>
+                    </label>
+                </span>
             </span>
-        </span>
-        <span class="align-self-end">
-            <Button id="btn-sent" @click="sendMessage" :disabled="!messageText" rounded :loading="loading" icon="pi pi-send"
-                class="send-message-button button-no-shadow" :class="messageText?'bg-base':'bg-gray-500'">
-            </Button>
-        </span>
+            <span class="align-self-end">
+                <Button id="btn-sent" @click="sendMessage" :disabled="!messageText" rounded :loading="loading"
+                    icon="pi pi-send" class="send-message-button button-no-shadow"
+                    :class="messageText ? 'bg-base' : 'bg-gray-500'">
+                </Button>
+            </span>
+        </div>
     </div>
 </template>
     
 <script setup>
 import Dialog from "primevue/dialog"
 import Button from "primevue/button"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import API from "../service"
 import { useStore } from "../store"
 import { useRoute } from "vue-router"
@@ -68,20 +73,20 @@ const loading = ref(false)
 const fileInput = ref(null)
 
 const props = defineProps({
-    addMessage : {
-        type : Function,
-        required : true,
+    addMessage: {
+        type: Function,
+        required: true,
     },
-    scrollToLatesMessage : {
-        type : Function,
-        required : true,
+    scrollToLatesMessage: {
+        type: Function,
+        required: true,
     },
 })
 
 function fileToBase64(e) {
     if (!e?.target?.files[0]) return
-    if(!isImage(e.target.files[0].type)){
-        addToast('only image allow share','warn')
+    if (!isImage(e.target.files[0].type)) {
+        addToast('only image allow share', 'warn')
         return
     }
     const reader = new FileReader()
@@ -105,11 +110,11 @@ const sendMessage = async () => {
         if (response) return console.log({ response });
         if (data.data.statusCode == 201) {
             props.addMessage(data.data.sent)
-            store.socketSendMesage({message:data.data.sent,sendTo:getFriendIdFromRoom(id)})
+            store.socketSendMesage({ message: data.data.sent, sendTo: getFriendIdFromRoom(id) })
             messageText.value = ""
-            setTimeout(()=>{
+            setTimeout(() => {
                 props.scrollToLatesMessage()
-            },200)
+            }, 200)
         }
         if (file.value) {
             handleClostDialog()
@@ -142,13 +147,17 @@ const addToast = (ms, severity) => {
     })
 }
 
-const getFriendIdFromRoom = id=>{
+const getFriendIdFromRoom = id => {
     let room = store.rooms?.find(ro => ro._id == id)
-    if(!room) return null
-    let {members} = room
-    if(!members?.length) return null
+    if (!room) return null
+    let { members } = room
+    if (!members?.length) return null
     return members?.find(mem => mem._id != store.user?.information?._id)?._id
 }
+const isEnglish = computed(() => {
+    let regExp = /[a-zA-Z]/
+    return regExp.test(messageText.value)
+})
 
 </script>
 
@@ -157,7 +166,6 @@ const getFriendIdFromRoom = id=>{
 
 
 <style scoped>
-
 #sent-icon {
     transform: rotate(45deg);
 }
@@ -173,4 +181,18 @@ const getFriendIdFromRoom = id=>{
 #btn-sent:hover>span #sent-icon {
     fill: white !important;
     color: white !important;
-}</style>    
+}
+
+.send-box-container {
+    width: calc(100% - 400px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width:800px) {
+    .send-box-container {
+        width: 100%;
+    }
+}
+</style>    

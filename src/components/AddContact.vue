@@ -96,6 +96,7 @@ const hadleSearch =async()=>{
             if(checkroom){
                 router.push({name:"MESSAGE_BOX",params:{id:checkroom._id}})
                 props.toggleAddContact()
+                store.toggleLayout()
                 return
             }
             const room = await api.CREATE_ROOM(id)
@@ -110,6 +111,7 @@ const hadleSearch =async()=>{
                 store.addFriends(room.data.data.getInfo,room.data.data.room)
                 router.push({name:"MESSAGE_BOX",params:{id:roomId}})
                 props.toggleAddContact()
+                store.toggleLayout()
             }
         }
     }catch(error){

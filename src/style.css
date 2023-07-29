@@ -85,7 +85,7 @@ body {
   min-width: 20%;
   padding: 5px 20px 20px 15px;
   border-radius: 10px 10px 10px 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   z-index: 1
 }
 
@@ -101,10 +101,10 @@ body {
   width: 20px;
   height: 20px;
   background-color: #009fff;
-  bottom: -15px;
+  bottom: -12px;
   clip-path: polygon(73% 0, 0 100%, 0 0);
-  left: -2px;
-  transform: rotate(30deg);
+  left: -5px;
+  transform: rotate(50deg);
   z-index: -1;
 }
 
@@ -116,9 +116,9 @@ body {
 
 .own-message .spam {
   background-color: #999B99;
-  transform: rotate(-30deg);
+  transform: rotate(-50deg);
   left: auto;
-  right: -2px;
+  right: -5px;
   clip-path: polygon(100% 0, 100% 100%, 23% 0);
 }
 
@@ -157,21 +157,6 @@ body {
   border-radius: 20px !important;
   overflow: hidden;
   width: 600px !important;
-}
-@media only screen and (max-width: 768px) {
-  .send-message-dialog {
-    border-radius: 20px !important;
-    width: 94% !important;
-  }
-  .message-container {
-    min-width: 30%;
-  }
-}
-@media only screen and (max-width: 500px) {
-  .message-container {
-    min-width: 40%;
-    max-width: 80%;
-  }
 }
 
 .send-message-dialog .p-dialog-header .p-dialog-header-icons {
@@ -571,6 +556,9 @@ body {
 .font-hanuman {
   font-family: 'Hanuman', sans-serif !important;
 }
+.font-roboto {
+  font-family: 'Roboto', sans-serif !important;
+}
 
 
 /* toast */
@@ -617,7 +605,6 @@ body {
 .ms-input-box {
   width: 100%;
   border-radius: 10px !important;
-  font-family: var(--message-font) !important;
   padding: 12px 20px !important;
   transition: all .3s linear !important;
   padding: 20px !important;
@@ -752,4 +739,22 @@ body {
   color: gray;
   top: 15px;
   transition: all .2s linear;
+}
+@media only screen and (max-width: 768px) {
+  .send-message-dialog {
+    border-radius: 20px !important;
+    width: 94% !important;
+  }
+  .message-container {
+    min-width: 30%;
+  }
+  .ms-input-box {
+    padding: 0;
+  }
+}
+@media only screen and (max-width: 500px) {
+  .message-container {
+    min-width: 40%;
+    max-width: 80%;
+  }
 }

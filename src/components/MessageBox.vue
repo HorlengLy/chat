@@ -20,7 +20,7 @@
                             <span ref="viewLates"></span>
                         </div>
                     </div>
-                    <div class="absolute bottom-0 w-full z-5">
+                    <div class="absolute w-full bottom-0 z-5">
                         <!-- send box -->
                         <MessageSendBox :addMessage="addMessage" :scrollToLatesMessage="scrollToLatesMessage" />
                     </div>

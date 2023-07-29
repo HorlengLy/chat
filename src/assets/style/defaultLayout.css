@@ -1,59 +1,35 @@
-/* screen pc */
-.leftLayout {
-    position: relative;
-    width: 25vw;
-    border: 1px solid #8888;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    background: #fff;
-}
-.rightLayout {
-    width: 75vw;
-    position: relative;
-    right: 0;
-    top: 0;
-    height: 100vh;
-}
-.viewProfile {
-    width: 25vw;
-    position: relative;
-    top: 0;
-    right: 0;
-    background-color: #fff;
-    height: 100vh;
-}
 .transition-layout {
     transition: all .3s linear;
 }
-.width-50vw {
-    width: 50vw !important;
+.base-layout {
+    width: 400px;
 }
-/* screen tablet */
-@media only screen and (max-width: 1200px){
-    .leftLayout {
-        position: relative;
-        width: 40vw;
-    }
-    .rightLayout {
-        width: 60vw;
-    }
+.leftLayout {
+    position: relative;
+    border: 1px solid gray;
+    height: 100vh;
+    background-color: #fff;
 }
-
-/* mobile screen */
-@media only screen and (max-width: 800px){
-    .leftLayout {
-        width: 100vw;
+.rightLayout {
+    width: calc(100%  - 400px);
+}
+@media (max-width: 800px) {
+    .base-layout {
+        width: 100%;
+        position: absolute;
+        left: 0;
     }
     .rightLayout {
         position: absolute;
-        width: 100vw;
-        right: -100%;
+        width: 100%;
+        right: 0px;
+        background: #000;
     }
-    .hiddenLeftLayout {
+    .hidden-righ-layout {
+        right: -100% !important;
+    }
+    .hidden-left-layout {
+        position: absolute;
         left: -100%;
-    }
-    .viewRightLayout {
-        right: 0 !important;
     }
 }

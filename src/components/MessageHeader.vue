@@ -1,10 +1,10 @@
 <template>
-    <div class="fixed w-full z-4 bg-white shadow-1 flex justify-content-between py-2 md:px-5 px-3  cursor-pointer">
+    <div class="message-header shadow-2">
         <template v-if="!loading">
-            <div class="flex gap-3 align-items-center" @click="toggleViewProfile">
-                <div class="flex gap-2 align-items-center">
-                    <span class="md:hidden inline-block">
-                        <Button class="arrow-button button-no-shadow" @click="backToHomePage" icon="pi pi-arrow-left"
+            <div class="flex gap-3 align-items-center">
+                <div class="flex gap-2 align-items-center cursor-pointer" @click="toggleViewProfile">
+                    <span class="md:hidden inline-block" >
+                        <Button class="arrow-button button-no-shadow " @click="backToHomePage" icon="pi pi-arrow-left"
                             rounded size="small" />
                     </span>
                     <span class="relative">
@@ -14,7 +14,7 @@
                         <span :class="{ 'active': isActive(friend?._id) }"></span>
                     </span>
                 </div>
-                <div>
+                <div class="cursor-pointer" @click="toggleViewProfile">
                     <span class="flex gap-2">
                         <h5 :class="[friend?.role == 'SUPER_ADMIN' ? 'admin-name' : 'text-gray-800',!isEnglish(friend?.name)?'font-hanuman':'']">
                             {{ friend?.name }}
@@ -106,5 +106,19 @@ const isEnglish = (text)=>{
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
+}
+.message-header {
+    position: fixed;
+    top: 0;
+    width: calc( 100% - 390px );
+    z-index: 3;
+    background-color: #fff;
+    padding: 10px 20px;
+}
+@media only screen and (max-width:800px){
+    .message-header {
+        width: 100%;
+        right: 0;
+    }
 }
 </style>

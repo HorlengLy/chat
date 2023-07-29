@@ -1,9 +1,9 @@
 <template>
     <div class="search-container pt-8">
         <template v-for="user in subUsers">
-            <template v-if="!user.user?.isDeleted">
-                <UserCard :user="user.user" :room="user.room" @click="$event=>opentConversation(user.room._id)"/>
-            </template>
+            <div v-if="!user.user?.isDeleted"  @click="$event=>opentConversation(user.room._id)">
+                <UserCard :user="user.user" :room="user.room"/>
+            </div>
         </template>
     </div>
 </template>
@@ -37,6 +37,7 @@ watchEffect(()=>{
 const opentConversation = _id => {
     router.push({name:"MESSAGE_BOX",params:{id:_id}})
     store.unSetSearch()
+    store.toggleLayout()
 }
 
 

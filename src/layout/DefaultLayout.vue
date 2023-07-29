@@ -3,7 +3,7 @@
     <div v-if="viewNavbar" class="nav-bar-overlay" @click="toggleNavbar"></div>
     <Navbar ref="navbarEle" :toggleNavbar="toggleNavbar" :toggleProfile="toggleProfile" :toggleAddContact="toggleAddContact"/>
     <div class="h-screen w-screen overflow-hidden">
-        <div class="flex h-full overflow-hidden">
+        <div class="h-full overflow-hidden grid mt-0">
             <div v-if="showProfile"
                 class="relative col-12 md:col-5 lg:col-4 xl:col-3 h-full bg-white border-right-1 border-gray-400 transition-all transition-duration-500">
                 <div class="w-full absolute left-0 top-0 z-5 border-bottom-1 border-gray-400">
@@ -13,7 +13,7 @@
                     <Profile :toggleProfile="toggleProfile" />
                 </div>
             </div>
-            <div v-else ref="leftLayout" class="h-screen leftLayout transition-layout">
+            <div v-else ref="leftLayout" class="base-layout leftLayout transition-layout">
                 <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
                 <template v-if="loading">
                     <FriendLoading />
@@ -33,7 +33,7 @@
                     </template>
                 </template>
             </div>
-            <div ref="rightLayout" class="rightLayout transition-layout">
+            <div ref="rightLayout" class="rightLayout hidden-righ-layout transition-layout " style="background-color: #F3F8FC;">
                 <router-view></router-view>
             </div>
         </div>
@@ -74,16 +74,19 @@ provide('loading',loading)
 onMounted(() => store.settoggleLayout(toggleLayout))
 onMounted(() => GET_FRIENDS())
 onMounted(()=>{
-    if(route.params.id)
+    let params = window.location.href?.split('k/')
+    if(params[1]){
         toggleLayout()
+    }
+        
 })
 const openChat = (_room) => {
     router.push({ name: "MESSAGE_BOX", params: { id: _room._id } })
     toggleLayout()
 }
 const toggleLayout = () => {
-    rightLayout.value.classList.toggle("viewRightLayout")
-    leftLayout.value.classList.toggle("hiddenLeftLayout")
+    rightLayout.value.classList.toggle("hidden-righ-layout")
+    leftLayout.value.classList.toggle("hidden-left-layout")
 }
 const toggleProfile = () => {
     showProfile.value = !showProfile.value
