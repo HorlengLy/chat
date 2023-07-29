@@ -42,7 +42,7 @@
             </span>
         </div>
         <span class="input-cover mt-5 flex ">
-            <input type="text" id="otp" autocomplete="OFF" required v-model="otp" class="my-input"
+            <input type="text" id="otp" autocomplete="OFF" required v-model="otp" class="my-input" @keyup.enter="verifyOtp"
                 :class="{ 'border-error': otp$.otp.$error }" />
             <label for="otp" :class="otp$.otp.$error ? 'color-error' : 'default-color'">
                 OTP Code
@@ -75,6 +75,7 @@ import Button from "primevue/button"
 import { useRouter } from "vue-router";
 import { ref, computed } from "vue";
 import { useToast } from "primevue/usetoast";
+import { useStore } from "../../store";
 
 const toast = useToast()
 const isSentOtp = ref(false)
@@ -84,6 +85,7 @@ const error = ref(null)
 const loading = ref(false)
 const api = new API()
 const router = useRouter()
+const store = useStore()
 const ruleEmail = computed(() => {
     return {
         emailVerify: {
@@ -111,7 +113,7 @@ const verifyOtp = async () => {
         return
     try {
         loading.value = true
-        const { data, response } = await api.VERIFY_OTP({
+        const { data, response } = await api.CHECK_OTP({
             email: emailVerify.value,
             otp: otp.value
         })
@@ -120,10 +122,7 @@ const verifyOtp = async () => {
             return
         }
         if (data?.data?.statusCode == 200){
-            const verifyToken = data.data?.verifyToken
-            if(!verifyToken) return addToast("none token provided",'error')
-            data.data.message && addToast(data.data.message,'success')
-            localStorage.setItem("token", verifyToken)
+            store.email = emailVerify.value
             router.push({name : "CHANGE_PASSWORD"})
         }
     }
@@ -135,19 +134,27 @@ const verifyOtp = async () => {
     }
 }
 const getOtpCode = async () => {
-    // validate email
     const re = await email$.value.$validate()
     if (!re)
         return
     try {
         loading.value = true
-        const { data, response } = await api.GET_OTP({ email: emailVerify.value })
-        if (response){
-            response.data?.data?.message && addToast(response.data.data.message,'error')
+        const { data, response } = await api.CHECK_EMAIL(emailVerify.value )
+        if(data){
+            data.data?.message && addToast(data.data.message,'error')
             return
         }
-        if(data?.data?.statusCode == 201)
-            isSentOtp.value = true
+        if(response){
+            const getOTP = await api.GET_OTP(emailVerify.value)
+            console.log({getOTP});
+            if(getOTP?.response){
+                getOTP.response.data?.data?.message && addToast(getOTP.response.data.data.message,'error')
+                return
+            }
+            if(getOTP.data?.data?.statusCode == 201){
+                isSentOtp.value = true
+            }
+        }
     }
     catch (error) {
         console.log(error);

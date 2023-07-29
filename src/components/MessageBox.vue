@@ -140,9 +140,15 @@ export default {
     bottom: 0;
     width: 100%;
     z-index: 5;
-    background-color: #fff;
     padding: 5px 0;
-    min-height: 16vh;
+    min-height: 10vh;
+}
+@media only screen and (max-width:400px) {
+    .input-box {
+        min-height: 16vh;
+        background-color: #fff;
+        
+    }
 }
 
 </style>

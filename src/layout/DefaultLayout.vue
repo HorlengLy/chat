@@ -67,12 +67,13 @@ const isView = ref(false)
 const loading = ref(false)
 const toast = useToast()
 const api = new API()
-const route = useRoute()
 const viewNavbar = ref(false)
 
 provide('loading',loading)
 onMounted(() => store.settoggleLayout(toggleLayout))
-onMounted(() => GET_FRIENDS())
+onMounted(() => {
+    localStorage.getItem('token') && GET_FRIENDS()
+})
 onMounted(()=>{
     let params = window.location.href?.split('k/')
     if(params[1]){

@@ -6,8 +6,8 @@
     <hr class="mt-1 w-11 mx-auto border-gray-300">
     <div class="mt-4 px-3">
         <span class="input-cover">
-            <input type="text" class="my-input font-hanuman" id="name" required v-model="state.name" @input="enableButton"
-                autocomplete="off" :class="validate.name.$error ? 'border-error' : ''" :spellcheck="false">
+            <input type="text" class="my-input" id="name" required v-model="state.name" @input="enableButton"
+                autocomplete="off" :class="[validate.name.$error ? 'border-error' : '',isEnglish(state.name)?'font-roboto':'font-hanuman']" :spellcheck="false">
             <label for="name" :class="{ 'color-error': validate.name.$error }">
                 Name
             </label>
@@ -20,7 +20,7 @@
         <span class="input-cover">
             <input type="number" class="my-input" id="phone" required v-model="state.phone"
                 @input="enableButton" autocomplete="off"
-                :class="validate.phone.$error ? 'border-error':''">
+                :class="[validate.phone.$error ? 'border-error':'',isEnglish(state.phone)?'font-roboto':'font-hanuman']">
             <label for="phone" :class="{ 'color-error': validate.phone.$error }">
                 Phone
             </label>
@@ -33,7 +33,7 @@
         <span class="info-cover w-11">
             <Textarea id="descriptions" v-model="state.bio" :rows="1" class="detail-card" :spellcheck="false" style="border-radius: 10px;"
             required auto-resize :class="validate.bio.$error ? 'border-error' : ''"/>
-            <label for="descriptions" :class="{ 'color-error': validate.bio.$error }">
+            <label for="descriptions" :class="[{ 'color-error': validate.bio.$error },isEnglish(state.bio)?'font-roboto':'font-hanuman']">
                 Descriptions
             </label>
             <p v-if="validate.bio.$error" class="message-error">
@@ -120,4 +120,8 @@ const disabledButton = computed(()=>{
     return (store.user?.information?.name != state.name || store.user?.information?.phone!= state.phone || store.user?.information?.bio != state.bio)
 })
 
+const isEnglish = (text)=>{
+    let reg = /[a-zA-Z]/
+    return reg.test(text)
+}
 </script>

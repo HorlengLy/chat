@@ -9,7 +9,7 @@ class API extends MakeAPI {
     Login               =   (state) => this.post(AUTH.LOGIN, state);
     REGISTER            =   ({email,password}) => this.post(AUTH.REGISTER, {email,password})
     VERIFY_EMAIL        =   (data) => this.post(AUTH.VERIFY_EMAIL, data)
-    VERIFY_TOKEN        =   (token) => this.get(AUTH.VERIFY_TOKEN,{headers:{"Authorization":token}})
+    VERIFY_TOKEN        =   () => this.get(AUTH.VERIFY_TOKEN)
     GET_FRIENDS         =   () => this.get(MESSAGE.GET_FRIENDS)
     GET_MESSAGES        =   (id) => this.get(`${MESSAGE.GET_MESSAGE}/${id}`)
     SEND_MESSAGE        =   ({ room, sender, text, file }) => this.post(`${MESSAGE.SEND_MESSAGE}/${room}`,{sender,text,file,})

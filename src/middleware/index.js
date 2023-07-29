@@ -41,12 +41,20 @@ export default function () {
                     else return true
                 }
             }
+            if(to.name == "CHANGE_PASSWORD"){
+                if(store.email){
+                    return true
+                }
+                else {
+                    return {name:"RECOVER_PASSWORD"}
+                }
+            }
             else {
-                if (token)
-                    return { name: "HOME" }
+                if(token) return {name:"HOME"}
                 else return true
             }
-        } catch (err) {
+            
+            } catch (err) {
             throw new Error(err)
         }
         finally {

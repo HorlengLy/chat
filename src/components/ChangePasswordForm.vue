@@ -48,7 +48,6 @@ import { useStore } from "../store";
 const router = useRouter();
 const api = new API();
 const loading = ref(false)
-const email = ref(null)
 const store = useStore()
 const toast = useToast()
 const state = reactive({
@@ -69,46 +68,18 @@ const rule = computed(()=>({
 
 const $v = useVuelidate(rule,state)
 
-onMounted(async()=>{
-    console.log("fetching api....");
-    const verifyToken = localStorage.getItem("token");
-    console.log(verifyToken);
-    if(!verifyToken){
-        addToast("Unauthorized to access",'error')
-        return router.push({name : "RECOVER_PASSWORD"})
-    }
-    try{
-        store.setLoading(true)
-        const {data,response} = await api.VERIFY_TOKEN("Bearer "+verifyToken)
-        console.log({data,response});
-        if(response){
-            localStorage.clear("verify_token")
-            response.data?.data?.message && addToast(response.data.data.message,'error')
-            return router.push({name : "RECOVER_PASSWORD"})
-        }
-        if(data?.data?.statusCode == 200){
-            email.value = data.data?.data?.email
-            data.data.message && addToast(response.data.data.message,'success')
-        }
-        else return router.push({name : "RECOVER_PASSWORD"})
-    }catch(error){
-        console.log(error);
-    }
-    finally{
-        store.setLoading(false)
-    }
-})
-
 const savePassword = async ()=>{
-    console.log({email:email.value});
     const re = await $v.value.$validate()
     if(!re) return
-    if(!email.value) return addToast("system error",'error')
+    if(!store.email) {
+        addToast("system error",'error')
+        return router.push({name:"LOGIN"})
+    }
     try{
         loading.value = true;
-        const {data,response} = await api.SET_NEW_PASSWORD({email:email.value,password:state.password})
+        const {data,response} = await api.SET_NEW_PASSWORD({email:store.email,password:state.password})
         if(response){
-            response.data?.data?.message && addToast(response.data.data.message,'success')
+            response.data?.data?.message && addToast(response.data.data.message,'error')
             return
         }
         data?.data?.message && addToast(data.data.message,'success')

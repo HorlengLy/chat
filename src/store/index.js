@@ -9,9 +9,10 @@ export const useStore = defineStore("mystore", () => {
     const rooms = ref([])
     const searchText = ref("")
     const isSearch = ref(false)
-    const loading = ref(true)
+    const loading = ref(false)
     const usersActive = ref([])
     const addMessage = ref(null)
+    const email = ref("")
     // perrjs
     const peer = ref(null);
     // socket
@@ -90,7 +91,8 @@ export const useStore = defineStore("mystore", () => {
         createPeerJs,
         peer,
         setToggleViewFriend,
-        toggleViewFriend
+        toggleViewFriend,
+        email
     }
 
 })
