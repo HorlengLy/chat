@@ -20,7 +20,7 @@
                             <span ref="viewLates"></span>
                         </div>
                     </div>
-                    <div class="absolute w-full bottom-0 z-5">
+                    <div class="input-box">
                         <!-- send box -->
                         <MessageSendBox :addMessage="addMessage" :scrollToLatesMessage="scrollToLatesMessage" />
                     </div>
@@ -132,3 +132,17 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+.input-box {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px 0;
+    min-height: 16vh;
+}
+
+</style>
