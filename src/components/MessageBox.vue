@@ -6,7 +6,7 @@
                 <div class="flex flex-column justify-content-between" style="height: 90vh;">
                     <div class="overflow-y-auto">
                         <!-- message contain -->
-                        <div class="w-10 lg:w-8 mx-auto flex flex-column gap-3 pt-8">
+                        <div class="sm:w-10 w-11 lg:w-8 mx-auto flex flex-column gap-3 ms-padding">
                             <template v-if="loading">
                                 <MessageLoading />
                             </template>

@@ -14,7 +14,9 @@
                 </div>
             </div>
             <div v-else ref="leftLayout" class="base-layout leftLayout transition-layout">
-                <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
+                <div>
+                    <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
+                </div>
                 <template v-if="loading">
                     <FriendLoading />
                 </template>

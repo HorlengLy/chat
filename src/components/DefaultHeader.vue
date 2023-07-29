@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute w-full left-0 top-0 z-5 flex align-items-center bg-white" style="height: 8vh;">
+    <div class="default-header" style="height: 8vh;">
         <div class="relative col-2">
             <span v-if="!store.isSearch">
                 <Button icon="pi pi-bars" rounded class="button-no-shadow nav-button" @click="toggleNavbar"/>
@@ -23,7 +23,6 @@
 
 <script setup>
 import Button from "primevue/button";
-import { useRouter } from "vue-router";
 import { useStore } from "../store";
 
 
@@ -104,6 +103,22 @@ const props = defineProps({
 
 ::-webkit-search-cancel-button {
     display: none;
+}
+.default-header {
+    position: fixed;
+    background-color: #fff;
+    top: 0;
+    width: 390px;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    padding: auto 10px;
+}
+@media only screen and (max-width:800px) {
+    .default-header {
+        width: 100%;
+    }
 }
 
 </style>

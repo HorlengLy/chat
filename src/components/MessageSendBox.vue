@@ -17,7 +17,7 @@
             <div class="flex gap-2 align-items-center justify-content-between shadow-2 py-3 px-1">
                 <!-- <input type="text" class="send-text-input" v-model="textFile" placeholder="Add a caption..."
                     :spellcheck="false" :disabled="loading"> -->
-                <TextArea class="font-hanuman ms-image-send" :rows="1" auto-resize placeholder="Say someting ..."
+                <TextArea v-model="textFile" class="font-hanuman ms-image-send" :rows="1" auto-resize placeholder="Say someting ..."
                     :spellcheck="false" />
                 <span class="align-self-end">
                     <Button size="small" icon="pi pi-send" label="Send" class="btn bg-base" @click="sendMessage"
