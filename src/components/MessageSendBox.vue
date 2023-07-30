@@ -26,7 +26,7 @@
             </div>
         </template>
     </Dialog>
-    <div class="send-box-container">
+    <div class="send-box-container mx-auto">
         <div class="md:w-9 w-11 flex gap-2">
             <span class="relative w-full">
                 <TextArea v-model="messageText" placeholder="Say something..." class="ms-input-box"
@@ -190,7 +190,7 @@ const isEnglish = computed(() => {
     align-items: center;
 }
 
-@media only screen and (max-width:800px) {
+@media only screen and (max-width:1000px) {
     .send-box-container {
         width: 100%;
     }

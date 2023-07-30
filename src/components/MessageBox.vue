@@ -1,7 +1,7 @@
 <template>
-    <div class="h-screen verflow-hidden">
+    <div class="h-screen verflow-hidden relative">
         <div class="flex">
-            <div ref="messageLayout" class="h-screen transition-layout w-full">
+            <div ref="messageLayout" class="transition-layout left-layout full-view-left-layout">
                 <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;" />
                 <div class="flex flex-column justify-content-between" style="height: 90vh;">
                     <div class="overflow-y-auto">
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div ref="friendViewLayout" class="user-info-layout transition-layout hidden-view-layout z-5">
+            <div ref="friendViewLayout" class="transition-layout right-layout hidden-right-layout shadow-2">
                 <ProfileViews :toggleViewProfile="toggleViewProfile" />
             </div>
         </div>
@@ -114,9 +114,8 @@ export default {
             })
         },
         toggleViewProfile() {
-            this.$refs.messageLayout?.classList.toggle('full-message-layout');
-            this.$refs.friendViewLayout?.classList.toggle('hidden-view-layout');
-            this.$refs.friendViewLayout?.classList.toggle('friend-view-layout');
+            this.$refs.messageLayout?.classList.toggle('full-view-left-layout');
+            this.$refs.friendViewLayout?.classList.toggle('hidden-right-layout');
         },
         checkDate(date) {
             let dateString = new Date(date).toDateString()

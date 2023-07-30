@@ -102,7 +102,7 @@ const isEnglish = (text)=>{
 .arrow-icon {
     display: none;
 }
-@media only screen and (max-width:400px){
+@media only screen and (max-width:1000px){
     .times-cion {
     display: none;
     }   

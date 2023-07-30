@@ -1,51 +1,26 @@
-.user-info-layout {
-    background-color: #fff;
-    height: 100vh;
-    width: 400px;
-    z-index: 1;
-}
-.message-layout {
-    width: 60%;
-}
-.full-message-layout {
-    width: 100% !important;
-}
-.friend-view-layout {
-    width: 40%;
-    height: 100vh;
-    background-color: #fff;
-    box-shadow: 0 0 5px rgba(0,0,0,.1);
-    position: relative;
-    right: 0;
-    opacity: 1;
-}
-.hidden-view-layout {
+.right-layout {
     position: absolute;
-    right: -500px;
+    width: 400px;
+    background-color: #fff;
+    height: 100vh;
+    top: 0;
+    z-index: 5;
+    right: 0;
 }
-
+.left-layout {
+    width: calc(100% - 400px );
+}
+.hidden-right-layout {
+    right: -100%;
+}
+.full-view-left-layout {
+    width: 100%;
+}
 @media only screen and (max-width: 1200px) {
-    .message-layout {
+    .right-layout {
         width: 100%;
     }
-    .friend-view-layout {
-        width: 350px;
-        z-index: 10;
-        position: absolute;
-        right: 0;
-    }
-    .user-info-layout {
-        width: 300px;
-    }
-}
-@media only screen and (max-width: 500px) {
-    .friend-view-layout {
-        width: 100%;
-        z-index: 10;
-        position: absolute;
-        right: 0;
-    }
-    .user-info-layout {
+    .left-layout {
         width: 100%;
     }
 }
