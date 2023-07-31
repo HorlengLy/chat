@@ -61,11 +61,12 @@ const router = createRouter({
         },
         {
             path : "/dashbord",
-            name : "DASHBORD",
+            name : "DASHBOARD",
             component : ()=> import("../views/Dashboard.vue"),
             meta : {
                 requiredAuth  :true,
                 requiredAdmin : true,
+                dashboardLayout:true
             }
         }
     ]

@@ -1,39 +1,44 @@
 <template>
     <!-- navbar overlay -->
     <div v-if="viewNavbar" class="nav-bar-overlay" @click="toggleNavbar"></div>
-    <Navbar ref="navbarEle" :toggleNavbar="toggleNavbar" :toggleProfile="toggleProfile" :toggleAddContact="toggleAddContact"/>
+    <Navbar ref="navbarEle" :toggleNavbar="toggleNavbar" :toggleProfile="toggleProfile"
+        :toggleAddContact="toggleAddContact" />
     <div class="h-screen w-screen overflow-hidden fixed top-0 left-0">
         <div class="h-full overflow-hidden grid mt-0">
-            <div v-if="showProfile"
-                class="relative col-12 md:col-5 lg:col-4 xl:col-3 h-full bg-white border-right-1 border-gray-400 transition-all transition-duration-500">
-                <div class="w-full absolute left-0 top-0 z-5 border-bottom-1 border-gray-400">
-                    <ProfileHeader :toggleProfile="toggleProfile" />
-                </div>
-                <div class="overflow-y-auto py-4 h-full mt-6 z-0">
-                    <Profile :toggleProfile="toggleProfile" />
-                </div>
-            </div>
-            <div v-else ref="leftLayout" class="base-layout leftLayout transition-layout">
-                <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
-                <template v-if="loading">
-                    <FriendLoading />
+            <div ref="leftLayout" class="base-layout leftLayout transition-layout">
+                <template v-if="showProfile">
+                    <div class="relative w-full h-full bg-white border-right-1 border-gray-400 transition-all transition-duration-500">
+                        <div class="default-header">
+                            <ProfileHeader :toggleProfile="toggleProfile" />
+                        </div>
+                        <div class="overflow-y-auto py-4 h-full mt-6 z-0">
+                            <Profile :toggleProfile="toggleProfile" />
+                        </div>
+                    </div>
                 </template>
                 <template v-else>
-                    <template v-if="!store.isSearch">
-                        <div class="friend-list h-full overflow-y-auto pt-7" v-if="store.rooms.length">
-                            <template v-for="room in store.rooms">
-                                <div @click="() => openChat(room)" v-if="!getFriend(room.members)?.isDeleted">
-                                    <UserCard :user="getFriend(room.members)" :room="room"/>
-                                </div>
-                            </template>
-                        </div>
+                    <DefaultHeader :toggleProfile="toggleProfile" :toggleNavbar="toggleNavbar" />
+                    <template v-if="loading">
+                        <FriendLoading />
                     </template>
                     <template v-else>
-                        <Search />
+                        <template v-if="!store.isSearch">
+                            <div class="friend-list h-full overflow-y-auto pt-7" v-if="store.rooms.length">
+                                <template v-for="room in store.rooms">
+                                    <div @click="() => openChat(room)" v-if="!getFriend(room.members)?.isDeleted">
+                                        <UserCard :user="getFriend(room.members)" :room="room" />
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <Search />
+                        </template>
                     </template>
                 </template>
             </div>
-            <div ref="rightLayout" class="rightLayout hidden-righ-layout transition-layout " style="background-color: #F3F8FC;">
+            <div ref="rightLayout" class="rightLayout hidden-righ-layout transition-layout "
+                style="background-color: #F3F8FC;">
                 <router-view></router-view>
             </div>
         </div>
@@ -52,8 +57,8 @@ import Search from '../components/Search.vue';
 import AddContact from '../components/AddContact.vue';
 import FriendLoading from "../components/loading/FriendLoading.vue"
 import { useStore } from "../store";
-import { useRouter,useRoute } from "vue-router";
-import { onMounted, ref,provide, computed } from "vue"
+import { useRouter, useRoute } from "vue-router";
+import { onMounted, ref, provide, computed } from "vue"
 import { useToast } from "primevue/usetoast"
 import API from '../service';
 
@@ -69,17 +74,17 @@ const toast = useToast()
 const api = new API()
 const viewNavbar = ref(false)
 
-provide('loading',loading)
+provide('loading', loading)
 onMounted(() => store.settoggleLayout(toggleLayout))
 onMounted(() => {
     localStorage.getItem('token') && GET_FRIENDS()
 })
-onMounted(()=>{
+onMounted(() => {
     let params = window.location.href?.split('k/')
-    if(params[1]){
+    if (params[1]) {
         toggleLayout()
     }
-        
+
 })
 const openChat = (_room) => {
     router.push({ name: "MESSAGE_BOX", params: { id: _room._id } })
@@ -123,7 +128,7 @@ const addToast = (ms, severity) => {
         severity
     })
 }
-function toggleNavbar(){
+function toggleNavbar() {
     viewNavbar.value = !viewNavbar.value
     if (navbarEle.value.$el?.classList.contains('hidden')) {
         navbarEle.value.$el?.classList.remove('hidden')
@@ -140,7 +145,6 @@ function toggleNavbar(){
 
 
 <style scoped>
-
 .nav-bar-overlay {
     position: absolute;
     width: 100vw;
@@ -151,6 +155,7 @@ function toggleNavbar(){
     background-color: transparent;
 
 }
+
 .friend-list {
     animation: zoomOut .3s linear;
 }
@@ -163,5 +168,4 @@ function toggleNavbar(){
     100% {
         transform: scale(1);
     }
-}
-</style>
+}</style>

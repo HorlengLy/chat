@@ -8,6 +8,7 @@ import "./assets/style/messageBox.css"
 import "primeflex/primeflex.css"
 import 'primeicons/primeicons.css';
 import "./assets/style/defaultLayout.css"
+import "./assets/style/dashboardLayout.css"
 import "./assets/style/login.css"
 import ToastService from "primevue/toastservice"
 import router from "./routes"

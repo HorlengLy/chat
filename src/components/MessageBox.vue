@@ -2,7 +2,7 @@
     <div class="h-screen verflow-hidden relative">
         <div class="flex">
             <div ref="messageLayout" class="transition-layout left-layout full-view-left-layout">
-                <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile" style="height: 8vh;" />
+                <MessageHeader :last-message="getLastMessage" :toggleViewProfile="toggleViewProfile"/>
                 <div class="flex flex-column justify-content-between" style="height: 90vh;">
                     <div class="overflow-y-auto">
                         <!-- message contain -->

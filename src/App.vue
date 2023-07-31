@@ -4,12 +4,17 @@
     <Loading />
   </div>
   <template v-else>
-    <div v-if="route.meta.cleanLayout">
-      <CleanLayout />
-    </div>
-    <div v-else class="base-container">
-      <DefaultLayout />
-    </div>
+    <template v-if="route.meta.dashboardLayout">
+      <Dashboard />
+    </template>
+    <template v-else>
+      <div v-if="route.meta.cleanLayout">
+        <CleanLayout />
+      </div>
+      <div v-else class="base-container">
+        <DefaultLayout />
+      </div>
+    </template>
   </template>
 </template>
 <script setup>
@@ -19,6 +24,7 @@ import DefaultLayout from "./layout/DefaultLayout.vue"
 import { useStore } from "./store/index"
 import Toast from "primevue/toast"
 import Loading from "./components/loading/Loading.vue"
+import Dashboard from './views/Dashboard.vue';
 
 const route = useRoute()
 const store = useStore()

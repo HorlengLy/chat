@@ -3,7 +3,7 @@ export const AUTH = {
     REGISTER            : "api/auth/register",
     VERIFY_EMAIL        : "api/auth/verify-email",
     UPDATE_PASSWORD     : "api/auth//update-info",
-    VERIFY_TOKEN        : "api/auth/verify-token",
+    GET_PROFILE        : "api/auth/get_profile",
     GET_PROFILE_DETAILS : "api/auth/get-profile-details",
     UPDATE_INFOMATION   : "api/auth/update-info",
     VERIFY_OTP          : "api/auth/verify-otp",
@@ -36,3 +36,5 @@ export const UPDATE_INFOMATION = {
     PROFILE_COVER       : 'api/update/profile-cover',
     USERNAME            : "api/update/username"
 }
+export const USER = 'api/dashboard/user'
+export const SET_ROLE = 'api/dashboard/set-role'

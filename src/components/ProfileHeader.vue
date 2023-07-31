@@ -1,5 +1,5 @@
 <template>
-    <div class="flex align-items-center">
+    <div class="flex align-items-center w-full">
         <span class="col-6 px-4">
             <span class="left-icon">
                 <Button class="animation-arrow arrow-button button-no-shadow" @click="toggleProfile" icon="pi pi-arrow-left" rounded size="small" />

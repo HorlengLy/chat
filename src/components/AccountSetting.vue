@@ -289,10 +289,10 @@ const changeEmail = async()=>{
 
 
 
-const disabledButtonEmail = computed(()=> store.user.email != userEmail.value)
-const disabledButtonUsername = computed(()=> store.user.username != username.value)
-const resetUsername = ()=> username.value = store.user.username
-const resetEmail = ()=> userEmail.value = store.user.email
+const disabledButtonEmail = computed(()=> store.user?.email != userEmail.value)
+const disabledButtonUsername = computed(()=> store.user?.username != username.value)
+const resetUsername = ()=> username.value = store.user?.username
+const resetEmail = ()=> userEmail.value = store.user?.email
 
 
 const addToast = (message, severity) => {

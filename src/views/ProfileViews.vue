@@ -1,7 +1,7 @@
 <template>
     <!-- profile view -->
     <!-- header -->
-    <div class="bg-white w-full flex gap-3 align-items-center shadow-1 py-2 px-4" style="height: 8vh;">
+    <div class="bg-white w-full flex gap-3 align-items-center shadow-1 px-4" style="padding-top:.6rem ;padding-bottom: .6rem;">
         <Button class="button-no-shadow arrow-button" rounded @click="toggleViewProfile">
             <template #icon>
                 <span class="times-cion">

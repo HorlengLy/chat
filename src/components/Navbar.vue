@@ -7,12 +7,20 @@
                     {{ menu.title }}
                 </span>
             </li>
+            <template v-if="true">
+                <li class="navItem" @click="toDashboard">
+                    <i class="pi pi-user-edit"></i>
+                    <span>
+                        Dashboard
+                    </span>
+                </li>
+            </template>
         </ul>
     </nav>
 </template>
 <script setup>
 import { useStore } from "../store"
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter()
@@ -33,14 +41,21 @@ const props = defineProps({
 })
 const menus = ref([
     { icon: 'pi-user', title: 'Settings', command: () => { props.toggleNavbar(); props.toggleProfile() } },
-    { icon: 'pi-user-plus', title: 'Add Contact', command: () => { props.toggleNavbar();props.toggleAddContact() } },
-    { icon: 'pi-info-circle', title: 'About', command: () => { props.toggleNavbar();window.open("https://t.me/Horlenggg") } },
+    { icon: 'pi-user-plus', title: 'Add Contact', command: () => { props.toggleNavbar(); props.toggleAddContact() } },
+    { icon: 'pi-info-circle', title: 'About', command: () => { props.toggleNavbar(); window.open("https://t.me/Horlenggg") } },
     { icon: 'pi-sign-out', title: 'Logout', command: () => { Logout() } },
 ],)
 const Logout = () => {
     store.$reset();
     localStorage.clear('token');
     router.push({ name: "LOGIN" })
+}
+const isAdmin = computed(() => {
+    return (store.user?.role == "ADMIN" || store.user?.role == "SUPER_ADMIN")
+})
+const toDashboard = ()=>{
+    router.push({name:'DASHBOARD'})
+    props.toggleNavbar()
 }
 </script>
 
