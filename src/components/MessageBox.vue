@@ -20,7 +20,7 @@
                             <span ref="viewLates"></span>
                         </div>
                     </div>
-                    <div class="input-box">
+                    <div class="input-box" :class="{'android-input-box':isAdroid}">
                         <!-- send box -->
                         <MessageSendBox :addMessage="addMessage" :scrollToLatesMessage="scrollToLatesMessage" />
                     </div>
@@ -60,6 +60,9 @@ export default {
     computed: {
         getLastMessage() {
             return this.messages.length ? this.messages[this.messages.length - 1] : null
+        },
+        isAdroid(){
+            return window.navigator.userAgent?.includes('Android')
         }
     },
     async mounted() {
@@ -127,7 +130,7 @@ export default {
             this.preDate = dateString
             return true
         },
-    }
+    },
 }
 
 </script>
@@ -140,6 +143,9 @@ export default {
     width: 100%;
     z-index: 5;
     background-color: #fff;
+}
+.android-input-box {
+    bottom: 48px !important;
 }
 
 </style>
