@@ -187,6 +187,7 @@ const changePassword = async() => {
             data.data?.message && addToast(data.data.message,'success')	
             state.password = ""
             state.confirmPassword = ""
+            $password.value.$reset()
         }
     }catch(error){
         throw new Error(error)

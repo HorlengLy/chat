@@ -37,6 +37,11 @@
                 <template v-if="isAdmin(getCurrentUserFromRooms?.role)">
                     <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded />
                 </template>
+                <template v-else>
+                    <template v-if="getCurrentUserFromRooms?.verified">
+                        <Button icon="pi pi-check" class="verify-button user-verified button-no-shadow" rounded> </Button>
+                    </template>
+                </template>
             </span>
             <span class="w-10 mx-auto text-center mt-2 text-sm text-gray-700" :class="{'font-hanuman':!isEnglish(getCurrentUserFromRooms?.bio)}" style="font-size: 12px;">
                 {{ getCurrentUserFromRooms?.bio }}

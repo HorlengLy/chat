@@ -3,7 +3,7 @@
         <div class="message-image" :class="{ 'own': message.sender == selfId }" v-if="message.file">
             <img :src="message.file" alt="" class="w-full h-full cursor-pointer" @dblclick="()=>opentImage(message.file)">
         </div>
-        <span class="text inline-block mt-2" :class="{'font-hanuman':!isEnglish(message.text)}">
+        <span class="text inline-block mt-2 px-3" :class="{'font-hanuman':!isEnglish(message.text)}">
             {{ message.text }}
         </span>
         <!--   send time   -->

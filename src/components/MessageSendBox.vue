@@ -1,7 +1,7 @@
 <template>
     <Dialog v-model:visible="isSendFile" modal class="send-message-dialog" style="width: 30rem;">
         <template #header>
-            <div class="flex gap-5 align-items-center">
+            <div class="flex gap-5 align-items-center py-3 px-5">
                 <Button @click="handleClostDialog" icon="pi pi-times" severity="secondary" rounded class="btn btn-close" />
                 <span class="font-semibold text-xl dark-gray">
                     Send Photo
@@ -14,20 +14,18 @@
             </div>
         </template>
         <template #footer>
-            <div class="flex gap-2 align-items-center justify-content-between shadow-2 py-3 px-1">
-                <!-- <input type="text" class="send-text-input" v-model="textFile" placeholder="Add a caption..."
-                    :spellcheck="false" :disabled="loading"> -->
+            <div class="flex gap-2 align-items-center justify-content-between shadow-2 py-1 px-1">
                 <TextArea v-model="textFile" class="font-hanuman ms-image-send" :rows="1" auto-resize placeholder="Say someting ..."
                     :spellcheck="false" />
-                <span class="align-self-end">
+                <span class="align-self-end mb-1">
                     <Button size="small" icon="pi pi-send" label="Send" class="btn bg-base" @click="sendMessage"
                         :loading="loading" />
                 </span>
             </div>
         </template>
     </Dialog>
-    <div class="send-box-container mx-auto">
-        <div class="md:w-9 w-11 flex gap-2">
+    <div class="w-full">
+        <div class="flex gap-2">
             <span class="relative w-full">
                 <TextArea v-model="messageText" placeholder="Say something..." class="ms-input-box"
                     :class="isEnglish ? 'font-roboto' : 'font-hanuman'" :rows="1" :spellcheck="false"
@@ -36,15 +34,15 @@
                     <label for="file" class="cursor-pointer">
                         <input type="file" id="file" ref="fileInput" hidden accept="image/png, image/gif, image/jpeg"
                             @change="fileToBase64">
-                        <i class="pi pi-file" style="font-size: 20px;" id="file-icon"></i>
+                        <i class="pi pi-file" style="font-size: 20px;color: gray;"></i>
                     </label>
                 </span>
-            </span>
-            <span class="align-self-end">
-                <Button id="btn-sent" @click="sendMessage" :disabled="!messageText" rounded :loading="loading"
-                    icon="pi pi-send" class="send-message-button button-no-shadow"
-                    :class="messageText ? 'bg-base' : 'bg-gray-500'">
-                </Button>
+                <span class="send-message-button">
+                    <Button id="btn-sent" @click="sendMessage" :disabled="!messageText" rounded :loading="loading"
+                        icon="pi pi-send" class="button-no-shadow"
+                        :class="messageText ? 'button-icon-base' : 'bg-gray-500'">
+                    </Button>
+                </span>
             </span>
         </div>
     </div>
@@ -166,16 +164,6 @@ const isEnglish = computed(() => {
 
 
 <style scoped>
-#sent-icon {
-    transform: rotate(45deg);
-}
-
-#voice-icon,
-#sent-icon,
-#file-icon {
-    fill: gray;
-    color: gray;
-}
 
 #btn-sent:hover>span #voice-icon,
 #btn-sent:hover>span #sent-icon {
@@ -183,16 +171,4 @@ const isEnglish = computed(() => {
     color: white !important;
 }
 
-.send-box-container {
-    width: calc(100% - 400px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@media only screen and (max-width:1000px) {
-    .send-box-container {
-        width: 100%;
-    }
-}
 </style>    

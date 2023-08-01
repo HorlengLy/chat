@@ -16,6 +16,11 @@
                 <template v-if="user.role == 'ADMIN' || user.role =='SUPER_ADMIN'">
                     <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded> </Button>
                 </template>
+                <template v-else>
+                    <template v-if="user.verified">
+                        <Button icon="pi pi-check" class="verify-button user-verified button-no-shadow" rounded> </Button>
+                    </template>
+                </template>
             </span>
             <p class="text-xs mt-2 text-gray-700" v-if="!(user.role == 'SUPER_ADMIN')">
                 {{ new Date(room.createdAt)?.toDateString() }}

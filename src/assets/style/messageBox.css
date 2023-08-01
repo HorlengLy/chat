@@ -16,11 +16,43 @@
 .full-view-left-layout {
     width: 100%;
 }
+.message-layout {
+    width: 65%;
+    margin: auto;
+}
+.send-message-button {
+    position: absolute;
+    bottom: 10px;
+    right: 40px;
+}
+.send-message-button button {
+    background-color: #fff !important;
+    border: none !important;
+}
+.send-message-button button .p-button-icon {
+    color: gray;
+    font-size: 25px;
+    transform: rotate(40deg);
+}
+.button-icon-base .p-button-icon {
+    color: #035F9E !important;
+}
 @media only screen and (max-width: 1200px) {
     .right-layout {
         width: 100%;
     }
     .left-layout {
         width: 100%;
+    }
+    .message-layout {
+        width: 75%;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .message-layout {
+        width: 90%;
+    }
+    .send-message-button {
+        right: 20px;
     }
 }

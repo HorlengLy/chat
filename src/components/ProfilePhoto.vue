@@ -6,8 +6,10 @@
             </template>
             <template v-if="state.isChnageCV">
                 <span class="btn-close-change flex gap-1 align-items-center">
-                    <Button icon="pi pi-times" class="my-btn-change btn-clost" severity="danger"  :disabled="state.loading" @click="clostProfileCover"/>
-                    <Button icon="pi pi-check" class="my-btn-change btn-save" severity="success" :autofocus="true" :loading="state.loading"  @click="changeCover" />
+                    <Button icon="pi pi-times" class="my-btn-change btn-clost" severity="danger" :disabled="state.loading"
+                        @click="clostProfileCover" />
+                    <Button icon="pi pi-check" class="my-btn-change btn-save" severity="success" :autofocus="true"
+                        :loading="state.loading" @click="changeCover" />
                 </span>
             </template>
             <template v-else>
@@ -21,22 +23,24 @@
             <div class="w-8rem h-8rem border-circle overflow-hidden absolute left-50 bg-default"
                 style="bottom: -50px;transform: translateX(-50%);">
                 <template v-if="state.profileImage">
-                    <img :src="state.profileImage" alt="" class="w-full h-full border-circle"
-                        style="transform: scale(.8);">
+                    <img :src="state.profileImage" alt="" class="w-full h-full border-circle" style="transform: scale(.8);">
                 </template>
             </div>
             <span class="file-choose" :class="{ 'btn-save-close': state.isChangePF }">
                 <template v-if="!state.isChangePF">
                     <label for="profile" class="cursor-pointer border-circle p-2 flex justify-content-center"
                         style="background-color: #d4dee7;">
-                        <input type="file" id="profile" hidden @change="setProfileImage" accept="image/png, image/gif, image/jpeg"/>
+                        <input type="file" id="profile" hidden @change="setProfileImage"
+                            accept="image/png, image/gif, image/jpeg" />
                         <i class="pi pi-camera" style="font-size: 1rem;color: #4EB91F;"></i>
                     </label>
                 </template>
                 <template v-else>
                     <span class="flex gap-1 align-items-center">
-                        <Button icon="pi pi-times" class="my-btn-change btn-clost" severity="danger" @click="clostProfileImage" :disabled="state.loading"/>
-                        <Button icon="pi pi-check" class="my-btn-change btn-save" severity="success" :autofocus="true" @click="changeProfile" :loading="state.loading"/>
+                        <Button icon="pi pi-times" class="my-btn-change btn-clost" severity="danger"
+                            @click="clostProfileImage" :disabled="state.loading" />
+                        <Button icon="pi pi-check" class="my-btn-change btn-save" severity="success" :autofocus="true"
+                            @click="changeProfile" :loading="state.loading" />
                     </span>
                 </template>
             </span>
@@ -44,14 +48,21 @@
     </div>
     <div class="mt-7 flex flex-column align-items-center">
         <span class="flex align-items-center gap-2">
-            <span class="font-semibold text-xl text-blue-500" :class="{'font-hanuman':!isEnglish(store.user?.information?.name )}" style="letter-spacing: 1px;">
-                {{ store.user?.information?.name}}
+            <span class="font-semibold text-xl text-blue-500"
+                :class="{ 'font-hanuman': !isEnglish(store.user?.information?.name) }" style="letter-spacing: 1px;">
+                {{ store.user?.information?.name }}
             </span>
             <template v-if="isAdmin">
-                <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded/>
+                <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded />
+            </template>
+            <template v-else>
+                <template v-if="store.user?.information?.verified">
+                    <Button icon="pi pi-check" class="verify-button user-verified button-no-shadow" rounded> </Button>
+                </template>
             </template>
         </span>
-        <span class="w-10 mx-auto text-center mt-2 text-base text-gray-700" :class="{'font-hanuman':!isEnglish(store.user?.information?.bio)}" style="font-size: 12px;">
+        <span class="w-10 mx-auto text-center mt-2 text-base text-gray-700"
+            :class="{ 'font-hanuman': !isEnglish(store.user?.information?.bio) }" style="font-size: 12px;">
             {{ store.user?.information?.bio }}
         </span>
     </div>
@@ -81,7 +92,7 @@ onMounted(() => {
     state.profileImage = store.user?.information?.profileImage
 })
 
-const isEnglish = (text)=>{
+const isEnglish = (text) => {
     let reg = /[a-zA-Z]/;
     return reg.test(text)
 }
@@ -90,30 +101,30 @@ const changeProfile = async () => {
     if (!state.profileImage) return;
     try {
         state.loading = true
-        const {data,response} = await api.CHANGE_IMAGE({
-            profileImage : state.profileImage,
-            token : localStorage.getItem('token')
+        const { data, response } = await api.CHANGE_IMAGE({
+            profileImage: state.profileImage,
+            token: localStorage.getItem('token')
         })
-        if(response){
-            if(response.data?.data){
-                const {message} = response.data.data
+        if (response) {
+            if (response.data?.data) {
+                const { message } = response.data.data
                 message && toast.add({
-                    summary : "KHMER-CHAT",
-                    detail : message,
-                    severity : "error",
+                    summary: "KHMER-CHAT",
+                    detail: message,
+                    severity: "error",
                 })
             }
             return
         }
-        if(data.data){
-            const {token,user,message} = data.data
+        if (data.data) {
+            const { token, user, message } = data.data
             user && store.setUser(user)
             token && localStorage.setItem('token', token)
             toast.add({
-                summary : "KHMER-CHAT",
-                detail : "profile image was changed",
-                severity : "success",
-                life : 5000
+                summary: "KHMER-CHAT",
+                detail: "profile image was changed",
+                severity: "success",
+                life: 5000
             })
             state.isChangePF = false
         }
@@ -129,30 +140,30 @@ const changeCover = async () => {
     if (!state.profileCover) return;
     try {
         state.loading = true
-        const {data,response} = await api.CHANGE_COVER({
-            profileCover : state.profileCover,
-            token : localStorage.getItem('token')
+        const { data, response } = await api.CHANGE_COVER({
+            profileCover: state.profileCover,
+            token: localStorage.getItem('token')
         })
-        if(response){
-            if(response.data?.data){
-                const {message} = response.data.data
+        if (response) {
+            if (response.data?.data) {
+                const { message } = response.data.data
                 message && toast.add({
-                    summary : "KHMER-CHAT",
-                    detail : message,
-                    severity : "error",
+                    summary: "KHMER-CHAT",
+                    detail: message,
+                    severity: "error",
                 })
             }
             return
         }
-        if(data.data){
-            const {token,user} = data.data
+        if (data.data) {
+            const { token, user } = data.data
             user && store.setUser(user)
             token && localStorage.setItem('token', token)
             toast.add({
-                summary : "KHMER-CHAT",
-                detail : "profile image was changed",
-                severity : "success",
-                life : 5000
+                summary: "KHMER-CHAT",
+                detail: "profile image was changed",
+                severity: "success",
+                life: 5000
             })
             state.isChnageCV = false
         }
@@ -182,16 +193,16 @@ const setCoverImage = (e) => {
         state.isChnageCV = true
     }
 }
-const clostProfileCover = ()=>{
+const clostProfileCover = () => {
     state.isChnageCV = false
     state.profileCover = store.user?.information.profileCover
 }
-const clostProfileImage = ()=>{
+const clostProfileImage = () => {
     state.isChangePF = false
     state.profileImage = store.user?.information.profileImage
 }
 
-const isAdmin = computed(()=>(store.user?.information?.role == "ADMIN") || (store.user?.information?.role=="SUPER_ADMIN"))
+const isAdmin = computed(() => (store.user?.information?.role == "ADMIN") || (store.user?.information?.role == "SUPER_ADMIN"))
 
 </script>
 
@@ -242,9 +253,9 @@ const isAdmin = computed(()=>(store.user?.information?.role == "ADMIN") || (stor
     justify-content: center;
     align-items: center;
 }
+
 .btn-close-change {
     position: absolute;
     right: 20px;
     top: 10px;
-}
-</style>
+}</style>

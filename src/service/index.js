@@ -1,5 +1,5 @@
 import MakeAPI from "../composable/makeAPI"
-import { AUTH, MESSAGE,OTP,USER,SET_ROLE} from "../util/endPoint"
+import { AUTH, MESSAGE,OTP,USER,SET_ROLE,SET_VERIFIED} from "../util/endPoint"
 class API extends MakeAPI {
     constructor() {
         super()
@@ -23,5 +23,6 @@ class API extends MakeAPI {
     SET_ROLE            = (id,role)=> this.patch(`${SET_ROLE}/${id}`,{role})
     GET_ALL_USER        =  ()=> this.get(USER)
     CHNAGE_STATUS       = (id,isDeleted)=> this.patch(`${USER}/${id}`,{isDeleted})
+    CHNAGE_VERIFIED     = (id,status)=> this.patch(`${SET_VERIFIED}/${id}`,{status})
 }
 export default API

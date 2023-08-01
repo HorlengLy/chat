@@ -38,3 +38,4 @@ export const UPDATE_INFOMATION = {
 }
 export const USER = 'api/dashboard/user'
 export const SET_ROLE = 'api/dashboard/set-role'
+export const SET_VERIFIED = 'API/dashboard/set-verified'

@@ -7,7 +7,7 @@
                     {{ menu.title }}
                 </span>
             </li>
-            <template v-if="true">
+            <template v-if="isAdmin">
                 <li class="navItem" @click="toDashboard">
                     <i class="pi pi-user-edit"></i>
                     <span>
@@ -51,7 +51,7 @@ const Logout = () => {
     router.push({ name: "LOGIN" })
 }
 const isAdmin = computed(() => {
-    return (store.user?.role == "ADMIN" || store.user?.role == "SUPER_ADMIN")
+    return (store.user?.information?.role == "ADMIN" || store.user?.information?.role == "SUPER_ADMIN")
 })
 const toDashboard = ()=>{
     router.push({name:'DASHBOARD'})

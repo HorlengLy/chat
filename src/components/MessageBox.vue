@@ -6,7 +6,7 @@
                 <div class="flex flex-column justify-content-between" style="height: 90vh;">
                     <div class="overflow-y-auto">
                         <!-- message contain -->
-                        <div class="sm:w-10 w-11 lg:w-8 mx-auto flex flex-column gap-3 ms-padding">
+                        <div class="message-layout flex flex-column gap-3 ms-padding">
                             <template v-if="loading">
                                 <MessageLoading />
                             </template>
@@ -139,15 +139,7 @@ export default {
     bottom: 0;
     width: 100%;
     z-index: 5;
-    padding: 5px 0;
-    min-height: 10vh;
-}
-@media only screen and (max-width:400px) {
-    .input-box {
-        min-height: 16vh;
-        background-color: #fff;
-        
-    }
+    background-color: #fff;
 }
 
 </style>

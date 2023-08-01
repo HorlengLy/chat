@@ -3,7 +3,7 @@
         <template v-if="!loading">
             <div class="flex gap-3 align-items-center">
                 <div class="flex gap-2 align-items-center cursor-pointer" @click="toggleViewProfile">
-                    <span class="md:hidden inline-block" >
+                    <span class="md:hidden inline-block">
                         <Button class="arrow-button button-no-shadow " @click="backToHomePage" icon="pi pi-arrow-left"
                             rounded size="small" />
                     </span>
@@ -16,11 +16,17 @@
                 </div>
                 <div class="cursor-pointer" @click="toggleViewProfile">
                     <span class="flex gap-2">
-                        <h5 :class="[friend?.role == 'SUPER_ADMIN' ? 'admin-name' : 'text-gray-800',!isEnglish(friend?.name)?'font-hanuman':'']">
+                        <h5
+                            :class="[friend?.role == 'SUPER_ADMIN' ? 'admin-name' : 'text-gray-800', !isEnglish(friend?.name) ? 'font-hanuman' : '']">
                             {{ friend?.name }}
                         </h5>
                         <template v-if="friend?.role == 'ADMIN' || friend?.role == 'SUPER_ADMIN'">
                             <Button icon="pi pi-check" class="verify-button button-no-shadow" rounded> </Button>
+                        </template>
+                        <template v-else>
+                            <template v-if="friend?.verified">
+                                <Button icon="pi pi-check" class="verify-button user-verified button-no-shadow" rounded> </Button>
+                            </template>
                         </template>
                     </span>
                     <p v-if="lastMessage" class="text-xs mt-1">
@@ -42,7 +48,7 @@
             </div>
         </template>
     </div>
-        <!-- <div class="px-3">
+    <!-- <div class="px-3">
             <Button icon="pi pi-phone" class="button-no-shadow button-call" rounded severity="secondary"/>
         </div> -->
 </template>
@@ -65,13 +71,13 @@ const friend = ref(null)
 const loading = inject('loading')
 
 defineProps({
-    toggleViewProfile : {
-        type : Function,
-        required : true
+    toggleViewProfile: {
+        type: Function,
+        required: true
     },
-    lastMessage : {
-        type : undefined,
-        required : true
+    lastMessage: {
+        type: undefined,
+        required: true
     }
 })
 
@@ -93,7 +99,7 @@ const getFriend = (members, selfId) => {
 const isActive = (_id) => {
     return store.usersActive?.some(el => el._id == _id);
 }
-const isEnglish = (text)=>{
+const isEnglish = (text) => {
     let reg = /[a-zA-Z]/;
     return reg.test(text)
 }
@@ -107,18 +113,19 @@ const isEnglish = (text)=>{
     height: 2.5rem;
     border-radius: 50%;
 }
+
 .message-header {
     position: fixed;
     top: 0;
-    width: calc( 100% - 390px );
+    width: calc(100% - 390px);
     z-index: 3;
     background-color: #fff;
     padding: 10px 20px;
 }
-@media only screen and (max-width:800px){
+
+@media only screen and (max-width:800px) {
     .message-header {
         width: 100%;
         right: 0;
     }
-}
-</style>
+}</style>
